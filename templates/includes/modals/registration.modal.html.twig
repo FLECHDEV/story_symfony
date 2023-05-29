@@ -1,0 +1,77 @@
+{# <!-- ------------------------Modal Inscription------------------- --> #}
+
+
+{# {% extends 'base.html.twig' %}
+{% block title %}Inscription{% endblock %}
+{% block body %}
+<div class="modal fade" id="modalInscription" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="staticBackdropLabel" alt="Inscription">Inscription</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body ">
+				<form action="{{ path('app_register')}}" method="post">
+
+                        <h1>Inscription</h1>
+
+                        {{ form_start(registrationForm) }}
+                            <fieldset>
+                            <legend>Mon identité</legend>
+                            {{ form_row(registrationForm.lastname) }}
+                            {{ form_row(registrationForm.firstname) }}
+                            {{ form_row(registrationForm.email) }}
+
+
+                            </fieldset>
+                            {{ form_row(registrationForm.plainPassword, {
+                                label: 'Password'
+                            }) }}
+                            {{ form_row(registrationForm.agreeTerms) }}
+
+                            <button type="submit" class="btn">Register</button>
+                        {{ form_end(registrationForm) }}
+					<button type="submit" class="btn btn-outline-success justify-content-center" alt="Valider">Valider</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %} #}
+
+{# <div class="modal fade" id="modalInscription" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="staticBackdropLabel" alt="Inscription">Inscription</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body ">
+				<form action="" method="post">
+					<div class="mb-3">
+						<label for="nom" class="form-label">Nom</label>
+						<input type="text" name="nom" class="form-control" id="Pseudo1" alt="Nom">
+					</div>
+					<div class="mb-3">
+						<label for="prenom" class="form-label">Prénom</label>
+						<input type="text" name="prenom" class="form-control" id="Pseudo1" alt="Prénom">
+					</div>
+					<div class="mb-3">
+						<label for="Email" class="form-label">Email</label>
+						<input type="email" name="email" class="form-control" alt="Email">
+					</div>
+					<div class="mb-3">
+						<label for="password" class="form-label">Mot de passe</label>
+						<input type="password" name="password" class="form-control" alt="Mot de passe">
+					</div>
+					<div class="mb-3">
+						<label for="password_retype" class="form-label">Vérification Mot de passe</label>
+						<input type="password" name="password_retype" class="form-control" id="Password2" alt="Vérification du mot de passe">
+					</div>
+					<button type="submit" class="btn btn-outline-success justify-content-center" alt="Valider">Valider</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div> #}

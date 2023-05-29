@@ -1,0 +1,329 @@
+{# <!-- ------------------------ALL Modal--------------------- --> #}
+
+
+{# <!-- ------------------------Modal Inscription------------------- --> #}
+
+{# <div class="modal fade" id="inscription" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="staticBackdropLabel" alt="Inscription">Inscription</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body ">
+				<form action="" method="post">
+					<div class="mb-3">
+						<label for="nom" class="form-label">Nom</label>
+						<input type="text" name="nom" class="form-control" id="Pseudo1" alt="Nom">
+					</div>
+					<div class="mb-3">
+						<label for="prenom" class="form-label">Prénom</label>
+						<input type="text" name="prenom" class="form-control" id="Pseudo1" alt="Prénom">
+					</div>
+					<div class="mb-3">
+						<label for="Email" class="form-label">Email</label>
+						<input type="email" name="email" class="form-control" alt="Email">
+					</div>
+					<div class="mb-3">
+						<label for="password" class="form-label">Mot de passe</label>
+						<input type="password" name="password" class="form-control" alt="Mot de passe">
+					</div>
+					<div class="mb-3">
+						<label for="password_retype" class="form-label">Vérification Mot de passe</label>
+						<input type="password" name="password_retype" class="form-control" id="Password2" alt="Vérification du mot de passe">
+					</div>
+					<button type="submit" class="btn btn-outline-success justify-content-center" alt="Valider">Valider</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div> #}
+
+{# <!-- ------------------------Modal setting Story--------------------- --> #}
+
+{# <div class="modal fade modal-lg" id="modalSettingStory" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="staticBackdropLabel">Tableau des storyzzz</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalNewCategory" alt="Ajouter une storiz">Ajout Story</button>
+			<div class="modal-body ">
+
+				<div class="table-responsive">
+					<table class="table">
+						<thead>
+							<tr>
+								<th class="text-center">#</th>
+								<th>Story</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="text-center">1</td>
+								<td>La super histoire</td>
+								<td class="td-actions text-right">
+									<button type="button" class="btn" id="btnActionDelete">
+										<i class="fi fi-rr-trash" alt="Supprimer" title="Delete"></i>
+									</button>
+									<button type="button" class="btn" id="btnActionEdit" data-bs-toggle="modal" data-bs-target="#modalUpdateStory" alt="Modifier">
+										<i class="fi fi-rr-edit"></i>
+									</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div> #}
+
+
+{# <!-- ------------------------Modal update Story--------------------- --> #}
+
+{# <div class="modal fade" id="modalUpdateStory" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="staticBackdropLabel" alt="Renommer la story">Renommer Story</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body ">
+				<form action="#" method="post" id="formConnexion">
+					<div class="mb-3">
+						<label for="nextStory" class="form-label" alt="Titre actuel">Titre actuel</label>
+						<input type="text" name="nextStory" class="form-control" id="nextStory">
+					</div>
+					<div class="mb-3">
+						<label for="updateStory" class="form-label" alt="Nouveau titre">Nouveau titre</label>
+						<input type="text" name="updateStory" class="form-control" id="updateStory">
+					</div>
+					<buttonValider type="submit" class="btn btn-outline-success justify-content-center" href="#" alt="Actualiser">Actualiser</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div> #}
+
+{# <!-- ------------------------Modal setting Category--------------------- --> #}
+
+{# <div class="modal fade modal-lg" id="modalSettingCategory" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="staticBackdropLabel">Tableau des catégories</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalNewCategory" alt="Ajouter une catégorie">Ajout catégorie</button>
+			<div class="modal-body ">
+
+				<div class="table-responsive">
+					<table class="table">
+						<thead>
+							<tr>
+								<th class="text-center">#</th>
+								<th>Catégorie</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="text-center">1</td>
+								<td>Famille Lechangeur</td>
+								<td class="td-actions text-right">
+									<button type="button" class="btn" id="btnActionDelete" data-bs-toggle="modal" data-bs-target="#modal">
+										<i class="fi fi-rr-trash" alt="Supprimer la catégorie"></i>
+									</button>
+									<button type="button" class="btn" id="btnActionEdit" data-bs-toggle="modal" data-bs-target="#modalUpdateCategory">
+										<i class="fi fi-rr-edit" alt="Modifier la catégorie"></i>
+									</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div> #}
+
+{# <!-- ------------------------Modal update Catégorie--------------------- --> #}
+
+{# <div class="modal fade" id="modalUpdateCategory" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="staticBackdropLabel" alt="Renommer la catégorie">Renommer catégorie</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" alt="Fermer"></button>
+			</div>
+			<div class="modal-body ">
+				<form action="#" method="post" id="formConnexion">
+					<div class="mb-3">
+						<label for="nextCategory" class="form-label">Titre actuel</label>
+						<input type="text" name="nextCategory" class="form-control" id="nextCategory" alt="Titre actuel">
+					</div>
+					<div class="mb-3">
+						<label for="updateCategory" class="form-label">Nouveau titre</label>
+						<input type="text" name="updateCategory" class="form-control" id="updateCategory" alt="Nouveau titre">
+					</div>
+					<buttonValider type="submit" class="btn btn-outline-success justify-content-center" href="#" alt="Actualiser">Actualiser</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div> #}
+
+{# <!-- ------------------------Modal New Personnage------------------- --> #}
+
+{# <div class="modal fade modal-lg" id="modalNewCharacter" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="staticBackdropLabel">Personnage</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body ">
+				<form action="#" method="post">
+					<div class="mb-3">
+						<label for="prenom" class="form-label">Prènom</label>
+						<input type="text" name="prenom" class="form-control" id="Prenom" alt="Prénom du personnage" placeholder="Exemple: Lee-lou">
+					</div>
+					<div class="mb-3">
+						<label for="nom" class="form-label">Nom</label>
+						<input type="text" name="nom" class="form-control" alt="Nom du personnage" placeholder="Exemple: White">
+					</div>
+					<div class="mb-3">
+						<label for="age" class="form-label">Age</label>
+						<input type="text" name="age" class="form-control" alt="Àge du personnage" placeholder="Exemple: 35">
+					</div>
+					<div class="mb-3">
+						<label for="password" class="form-label">Surnom</label>
+						<input type="text" name="surnom" class="form-control" alt="Surnom du personnage" placeholder="Exemple: Loulou">
+					</div>
+					<div class="mb-3">
+						<label for="profession" class="form-label">Profession</label>
+						<input type="text" name="profession" class="form-control" alt="Profession du personnage" placeholder="Exemple: Expert psychiatre">
+					</div>
+					<div class="mb-3">
+						<label for="ethnie" class="form-label">Éthnie</label>
+						<input type="text" name="ethnie" class="form-control" alt="Ethnie du personnage" placeholder="Exemple: caucasien">
+					</div>
+					<div class="mb-3">
+						<label for="liens" class="form-label">Liens</label>
+						<input type="text" name="liens" class="form-control" alt="Liens du personnage" placeholder="Exemple: Fille de Maryline">
+					</div>
+					<div class="mb-3">
+						<label for="password" class="form-label">Catégorie personnage</label>
+						<div class="dropdown">
+							<button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" alt="Choisir une catégorie">
+								Choisissez :
+							</button>
+							<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton">
+								<li>
+									<a class="dropdown-item" href="#">Famille Lechangeur</a>
+								</li>
+							</ul>
+						</div>
+						Nouvelle catégorie :
+						<input type="text" name="categorie" class="form-control" alt="Créer une nouvelle catégorie" placeholder="Exemple : Famille White">
+					</div>
+					<div class="mb-4">
+						<label for="textCharacter" class="form-label">Infos</label>
+						<div class="form-outline mb-4">
+							<textarea class="form-control" id="textCharacter" rows="4" alt="les infos du personnage" placeholder="Exemple : Première apparition lors de la réunion de Police...  " style="resize: none; white-space: pre-line;"></textarea>
+						</div>
+					</div>
+					<button type="submit" class="btn btn-success justify-content-center" href="#" alt="Valider">Valider</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div> #}
+
+{# <!-- ------------------------Modal New Chapitre--------------------- --> #}
+
+{# <div class="modal fade" id="modalNewChapter" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="staticBackdropLabel">Nouveau Chapitre</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" alt="Fermer"></button>
+			</div>
+			<div class="modal-body ">
+				<form action="#" method="post" id="formConnexion">
+					<div class="mb-3">
+						<label for="newChapter" class="form-label">Titre du chapitre</label>
+						<input type="email" name="newChapter" class="form-control" id="newChapter" alt="Titre du chapitre">
+					</div>
+					<buttonValider type="submit" class="btn btn-success justify-content-center" href="#" alt="Valider">Valider</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div> #}
+
+{# <!-- ------------------------Modal setting Chapitre--------------------- --> #}
+
+{# <div class="modal fade modal-lg" id="modalSettingCChapter" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="staticBackdropLabel">Tableau des chapitres</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body ">
+				<div class="table-responsive">
+					<table class="table">
+						<thead>
+							<tr>
+								<th class="text-center">#</th>
+								<th>Chapitre</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="text-center">1</td>
+								<td>Prologue</td>
+								<td class="td-actions text-right">
+									<button type="button" class="btn" id="btnActionDelete" data-bs-toggle="modal" alt="Supprimer">
+										<i class="fi fi-rr-trash"></i>
+									</button>
+									<button type="button" class="btn" id="btnActionEdit" data-bs-toggle="modal" data-bs-target="#modalUpdateChapter" alt="Modifier">
+										<i class="fi fi-rr-edit"></i>
+									</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div> #}
+
+{# <!-- ------------------------Modal update Chapitre--------------------- --> #}
+
+{# <div class="modal fade" id="modalUpdateChapter" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="staticBackdropLabel">Renommer chapitre</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body ">
+				<form action="#" method="post" id="formConnexion">
+					<div class="mb-3">
+						<label for="nextChapter" class="form-label">Titre actuel</label>
+						<input type="text" name="nextChapter" class="form-control" id="nextChapter" alt="Titre actuel">
+					</div>
+					<div class="mb-3">
+						<label for="updateChapter" class="form-label">Nouveau titre</label>
+						<input type="text" name="updateChapter" class="form-control" id="updateChapter" alt="Nouveau titre">
+					</div>
+					<buttonValider type="submit" class="btn btn-outline-success justify-content-center" href="#">Actualiser</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div> #}
