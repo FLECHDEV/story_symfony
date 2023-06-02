@@ -2,31 +2,25 @@
 //     console.log('Chargée.');
 // });
 
-let textArea = document.querySelector("#textChapter").value.toLowerCase();
-let nameCharacters = document.querySelectorAll(".nameCharacter");
-
-console.log(textArea);
 
 function searchNameForCollapse() {
-    for (let i = 0; i < nameCharacters.length; i++) {
-        let nameTab = nameCharacters[i].textContent.toLowerCase();
-        console.log(nameTab);
-        const firstnameRegex = /^[^\s]+/;
-        let resultName = nameTab.match(firstnameRegex);
-        console.log(resultName);
+    let textArea = document.querySelector("#textChapter").value.toLowerCase();
 
-        if (textArea.includes(resultName)) {
-            console.log("Le prènom existe!");
-            document.getElementById(`nameCharacter${i + 1}`).style.color = 'red';
+    let index = [1, 2, 3];
+    for (let i = 0; i < index.length; i++) {
+        let firstName = document.querySelector("#character" + i + "FirstName");
+        if (!firstName) {
+            continue;
+        }
+        firstName = firstName.textContent.toLowerCase();
+        if (textArea.toLowerCase().includes(firstName)) {
+            document.querySelector("#character" + i + "FirstName").style.color = 'red';
         } else {
-            console.log("Le prènom n'existe pas!");
-            document.getElementById(`nameCharacter${i + 1}`).style.color = 'black';
+            document.querySelector("#character" + i + "FirstName").style.color = 'black';
         }
     }
     console.log("--------------------------");
 }
-
-searchNameForCollapse();
 
 document.addEventListener('keydown', function (event) {
     if (event.code == 'Space') {
@@ -34,6 +28,8 @@ document.addEventListener('keydown', function (event) {
         // window.location.reload();
     }
 });
+searchNameForCollapse();
+
 
 $(document).ready(function () {
     // Toggle plus minus icon on show hide of collapse element

@@ -25,18 +25,5 @@ class MainController extends AbstractController
             'stories' => $stories,
         ]);
     }
-    
-    public function newStory(Request $request, EntityManagerInterface $entityManager): Response
-{
-    $newStory = new Story();
-    $storyForm = $this->createForm(StoryType::class, $newStory);
-    $storyForm->handleRequest($request);
 
-    if ($storyForm->isSubmitted() && $storyForm->isValid()) {
-        $entityManager->persist($newStory);
-        $entityManager->flush();
-        return $this->redirectToRoute('main');
-    }
 }
-}
-

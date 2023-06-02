@@ -1,0 +1,20 @@
+	<div class="modal fade" id="modalNewStory" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="staticBackdropLabel">Nouvelle storiz</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body ">
+					<form action="{{ path('app_api_newstory')}}" method="post" id="storyFormData">
+						<div class="mb-3">
+							<label for="newStory" class="form-label">Titre</label>
+							<input type="text" name="newStory" class="form-control" id="newStory">
+						</div>
+						<button type="submit" class="btn btn-success justify-content-center">Valider</button>
+					</form>
+					{#{{ render(controller('App\\Controller\\MainController::newStory', { 'modal': true })) }}#}
+				</div>
+			</div>
+		</div>
+	</div>
