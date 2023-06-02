@@ -28,6 +28,6 @@ class ApiController extends AbstractController
         $entityManager->persist($newStory);
         $entityManager->flush();
         // return new JsonResponse('ok');
-        return $this->redirectToRoute('main');
+        return $this->redirectToRoute('app_main');
     }
 }
