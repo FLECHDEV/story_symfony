@@ -31,10 +31,10 @@ class CharacterController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $characterRepository->save($character, true);
 
-            return $this->redirectToRoute('app_character_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_main');
         }
 
-        return $this->renderForm('character/new.html.twig', [
+        return $this->render('character/new.html.twig', [
             'character' => $character,
             'form' => $form,
         ]);
@@ -69,10 +69,10 @@ class CharacterController extends AbstractController
     #[Route('/{id}', name: 'app_character_delete', methods: ['POST'])]
     public function delete(Request $request, Character $character, CharacterRepository $characterRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$character->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $character->getId(), $request->request->get('_token'))) {
             $characterRepository->remove($character, true);
         }
 
-        return $this->redirectToRoute('app_character_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_main');
     }
 }

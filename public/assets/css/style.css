@@ -1,5 +1,4 @@
 .accordion {
-    height: 35rem;
     overflow-y: scroll;
     scrollbar-width: none;
 }
