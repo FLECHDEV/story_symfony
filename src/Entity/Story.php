@@ -30,6 +30,11 @@ class Story
         $this->categories = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->story_name;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
