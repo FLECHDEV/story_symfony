@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Story;
 use App\Form\StoryType;
+use App\Repository\StoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

@@ -73,6 +73,6 @@ class StoryController extends AbstractController
             $storyRepository->remove($story, true);
         }
 
-        return $this->redirectToRoute('app_story_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_main');
     }
 }
