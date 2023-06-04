@@ -1,13 +1,12 @@
 // window.addEventListener('load', function () {
 //     console.log('Chargée.');
 // });
-
+console.log(document.querySelector("#character4Firstname"));
 
 function searchNameForCollapse() {
     let textArea = document.querySelector("#textChapter").value.toLowerCase();
-
-    let index = [1, 2, 3];
-    for (let i = 0; i < index.length; i++) {
+    let index = [1, 2, 3, 4, 5];
+    for (let i = 0; i <= index.length; i++) {
         let firstName = document.querySelector("#character" + i + "FirstName");
         if (!firstName) {
             continue;
@@ -25,7 +24,6 @@ function searchNameForCollapse() {
 document.addEventListener('keydown', function (event) {
     if (event.code == 'Space') {
         searchNameForCollapse();
-        // window.location.reload();
     }
 });
 searchNameForCollapse();
@@ -39,3 +37,7 @@ $(document).ready(function () {
         $(this).parent(".card").find(".toggle").removeClass("rotate");
     });
 });
+
+
+
+

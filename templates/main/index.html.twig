@@ -186,7 +186,7 @@
 											<button type="submit" class="btn" id="btnActionDeleteStory">
 												<i class="fi fi-rr-trash"></i>
 											</button>
-											<button type="button" class="btn" id="btnActionEditStory" data-bs-toggle="modal" data-bs-target="#modalUpdateStory">
+											<button type="button" class="btn" id="btnActionEditStory" data-bs-toggle="modal" data-bs-target="#modalUpdateStory" data-whatever="{{ story.id }}" data-story-id="{{ story.id }}">
 												<i class="fi fi-rr-edit"></i>
 											</button>
 										</form>
@@ -199,7 +199,7 @@
 										<td>Aucune storiz</td>
 									</tr>
 								{% endfor %}
-
+								
 							</tbody>
 						</table>
 					</div>
@@ -222,10 +222,12 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body ">
-					<form action="#" method="post" id="formConnexion">
+					<form method="post" action="{{ path('app_story_edit', {'id': story.id}) }}" onsubmit="return confirm('Mettre à jour la Story : {{ story.storyName }} ?');" id="modalEditStory">
+						<input type="hidden" name="_token" value="{{ csrf_token('update' ~ story.id) }}">
 						<div class="mb-3">
 							<label for="nextStory" class="form-label">Titre actuel</label>
-							<input type="text" name="nextStory" class="form-control" id="currentStory">
+							<input type="text" readonly value="{{ story.storyName }}" name="nextStory" class="form-control" id="currentStory" data-story-id="{{ story.id }}">
+
 						</div>
 						<div class="mb-3">
 							<label for="updateStory" class="form-label">Nouveau titre</label>
@@ -535,7 +537,7 @@
 
 	<!-- -------------------------Container creation Characters & Chapters--------------------- -->
 
-		<!-- ------------------------- creation Characters --------------------- -->
+<!-- ------------------------- creation Characters --------------------- -->
 
 
 	<div class="container-lg mt-3">
@@ -592,7 +594,7 @@
 
 				</div>
 			{% endfor %}
-		<!-- ------------------------- creation Chapters --------------------- -->
+<!-- ------------------------- creation Chapters --------------------- -->
 
 		</div>
 		<div class="col">
