@@ -34,7 +34,7 @@ class StoryController extends AbstractController
             return $this->redirectToRoute('app_story_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('story/new.html.twig', [
+        return $this->render('story/new.html.twig', [
             'story' => $story,
             'form' => $form,
         ]);
@@ -60,7 +60,7 @@ class StoryController extends AbstractController
             return $this->redirectToRoute('app_story_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('story/edit.html.twig', [
+        return $this->render('story/edit.html.twig', [
             'story' => $story,
             'form' => $form,
         ]);

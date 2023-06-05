@@ -25,9 +25,13 @@ class Story
     #[ORM\OneToMany(mappedBy: 'story_id', targetEntity: Category::class)]
     private Collection $categories;
 
+    #[ORM\OneToMany(mappedBy: 'story_id', targetEntity: Chapter::class, orphanRemoval: true)]
+    private Collection $chapters;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
+        $this->chapters = new ArrayCollection();
     }
 
     public function __toString()
@@ -88,6 +92,36 @@ class Story
             // set the owning side to null (unless already changed)
             if ($category->getStoryId() === $this) {
                 $category->setStoryId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Chapter>
+     */
+    public function getChapters(): Collection
+    {
+        return $this->chapters;
+    }
+
+    public function addChapter(Chapter $chapter): self
+    {
+        if (!$this->chapters->contains($chapter)) {
+            $this->chapters->add($chapter);
+            $chapter->setStoryId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChapter(Chapter $chapter): self
+    {
+        if ($this->chapters->removeElement($chapter)) {
+            // set the owning side to null (unless already changed)
+            if ($chapter->getStoryId() === $this) {
+                $chapter->setStoryId(null);
             }
         }
 
