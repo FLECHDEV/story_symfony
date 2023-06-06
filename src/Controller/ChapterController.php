@@ -73,6 +73,31 @@ class ChapterController extends AbstractController
             $chapterRepository->remove($chapter, true);
         }
 
-        return $this->redirectToRoute('app_chapter_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('main', [], Response::HTTP_SEE_OTHER);
     }
+
+    /**
+     * @Route("/get_chapter_details", name="get_chapter_details", methods={"POST"})
+     */
+    public function getChapterDetails(Request $request, ChapterRepository $chapterRepository): Response
+    {
+        $chapterId = $request->request->get('chapterId');
+
+        // Récupérer les détails du chapitre en fonction de l'ID
+        $chapter = $chapterRepository->find($chapterId);
+
+        // Vérifier si le chapitre existe
+        if (!$chapter) {
+            throw $this->createNotFoundException('Chapitre non trouvé');
+        }
+
+        // Retourner les détails du chapitre sous forme de réponse JSON
+        return $this->json([
+            'currentChapter' => $chapter->getChapterName(),
+            // ...
+        ]);
+    }
+
+    // ...
 }
+

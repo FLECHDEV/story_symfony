@@ -16,7 +16,7 @@
 
 	<nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
         <div class="container px-4 px-lg-5">
-			<a class="navbar-brand" href="{{path('app_main')}}" title="Storiz">STORIZ</a>
+			<a class="navbar-brand" href="{{path('app_main')}}" title="Storiz">STORIZ <span id="displayStory"></span></a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" alt="Menu">
 				Menu
 				<i class="fas fa-bars"></i>
@@ -28,18 +28,18 @@
 							<a class="nav-link px-lg-3 py-3 py-lg-4" href="{{path('app_logout')}}" alt="DéConnexion">Deconnexion</a>
 						</li>
 						<div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
-							<ul class="navbar-nav">
+							<ul class="navbar-nav" id="ulStory">
 								<li class="nav-item dropdown">
-									<a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+									<a class="nav-link dropdown-toggle"  id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 										Storizzz
 									</a>
-									<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+									<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink" id="ulStory">
 										<button type="button" class="btn btn-outline-warning btn-block" id="ButtonSettingStory" data-bs-toggle="modal" data-bs-target="#modalSettingStory">
 											<i class="fi fi-rr-settings"></i>
 										</button>
 										{% for story in stories %}
 											<li>
-												<a class="dropdown-item" href="#">{{ story.storyName }}</a>
+												<a class="dropdown-item story" id="dropdownStory" href="#">{{ story.storyName }}</a>
 											</li>
 										{% else %}
 											<li>
@@ -397,7 +397,7 @@
 	</div>
 
 
-	<!-- ------------------------Modal setting Chapitre--------------------- -->
+	<!-- ------------------------Modal setting Chapiter --------------------- -->
 
 
 	<div class="modal fade modal-lg" id="modalSettingChapter" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -457,10 +457,10 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body ">
-					<form action="" method="post" id="formConnexion">
+					<form action="" method="post" id="formEditChapter">
 						<div class="mb-3">
 							<label for="nextChapter" class="form-label">Titre actuel</label>
-							<input type="text" name="nextChapter" class="form-control" id="nextChapter">
+							<input type="text" name="currentChapter" class="form-control" id="currentChapter">
 						</div>
 						<div class="mb-3">
 							<label for="updateChapter" class="form-label">Nouveau titre</label>
@@ -502,16 +502,16 @@
 						Chapitre
 					</button>
 
-					<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+					<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink" id="ulChapter">
 						{% if app.user %}
 							{% for chapter in chapters %}
-								<li>
-									<a class="dropdown-item" href="#">{{ chapter.chapterName }}</a>
+								<li class="chapterInfos">
+									<a class="dropdown-item" id="dropdownChapter" data-chapter-name="{{ chapter.chapterName }}" data-chapter-ideas="{{ chapter.chapterIdeas }}" onclick="updateTextarea(this.dataset.chapterIdeas)">{{ chapter.chapterName }}</a>
 								</li>
 							{% endfor %}
 						{% else %}
 							<li>
-								<a class="dropdown-item" href="#">Aucun chapitre</a>
+								<a class="dropdown-item" >Aucun chapitre</a>
 							</li>
 						{% endif %}
 					</ul>
@@ -519,8 +519,7 @@
 						<i class="fi fi-rr-settings"></i>
 					</button>
 					<button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalNewChapter">Nouveau chapitre</button>
-
-					<label for="exampleFormControlTextarea6" id="modalNewChapter">Chapitre 7 - Quand soudain</label>
+					<span id="numberOfChapter"></span> : <label id="chapitreEnCours"></label>
 				</div>
 
 			</div>
@@ -540,7 +539,7 @@
 						<div class="card">
 							<div class="card-header" id="heading{{character.id}}">
 								<h2 class="mb-0">
-									<a data-toggle="collapse" data-target="#collapse{{character.id}}" aria-expanded="false" aria-controls="collapse{{character.id}}">
+									<a class="characterId" data-toggle="collapse" data-target="#collapse{{character.id}}" aria-expanded="false" aria-controls="collapse{{character.id}}">
 										<p class="nameCharacter" id="nameCharacter{{character.id}}">
 											<i class="fa fa-user"></i>
 											<span id='character{{character.id}}FirstName'>{{character.characterFirstname}}</span>
@@ -590,7 +589,6 @@
 			<div class="col">
 				<div class="form-group shadow-textarea">
 					<textarea class="form-control z-depth-1" id="textChapter" rows="3" placeholder="Vos idées pour ce chapitre..." style="height: 35rem; resize: none; white-space: pre-line;">
-					DÉBUT TEXTAREA---------------------------------
 					</textarea>
 				</div>
 			</div>
