@@ -13,13 +13,6 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/story')]
 class StoryController extends AbstractController
 {
-    #[Route('/', name: 'app_story_index', methods: ['GET'])]
-    public function index(StoryRepository $storyRepository): Response
-    {
-        return $this->render('story/index.html.twig', [
-            'stories' => $storyRepository->findAll(),
-        ]);
-    }
 
     #[Route('/new', name: 'app_story_new', methods: ['GET', 'POST'])]
     public function new(Request $request, StoryRepository $storyRepository): Response
@@ -31,20 +24,12 @@ class StoryController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $storyRepository->save($story, true);
 
-            return $this->redirectToRoute('app_story_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_main', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('story/new.html.twig', [
             'story' => $story,
             'form' => $form,
-        ]);
-    }
-
-    #[Route('/{id}', name: 'app_story_show', methods: ['GET'])]
-    public function show(Story $story): Response
-    {
-        return $this->render('app_main', [
-            'story' => $story,
         ]);
     }
 
@@ -57,7 +42,7 @@ class StoryController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $storyRepository->save($story, true);
 
-            return $this->redirectToRoute('app_story_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_main', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('story/edit.html.twig', [
@@ -69,7 +54,7 @@ class StoryController extends AbstractController
     #[Route('/{id}', name: 'app_story_delete', methods: ['POST'])]
     public function delete(Request $request, Story $story, StoryRepository $storyRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$story->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $story->getId(), $request->request->get('_token'))) {
             $storyRepository->remove($story, true);
         }
 

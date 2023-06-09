@@ -6,11 +6,11 @@
 {% block body %}
 
 	{# {% include "includes/nav.html.twig" %}
-			{% include "includes/settings.html.twig" %}
-			{% include "includes/creation.html.twig" %}
-			{% include "includes/modals/login.modal.html.twig" %}
-			{% include "includes/modals/registration.modal.html.twig" %}
-			{{ include('includes/modals/modals.html.twig') }} #}
+											{% include "includes/settings.html.twig" %}
+											{% include "includes/creation.html.twig" %}
+											{% include "includes/modals/login.modal.html.twig" %}
+											{% include "includes/modals/registration.modal.html.twig" %}
+											{{ include('includes/modals/modals.html.twig') }} #}
 
 
 	<!-- ----------------------Navigation-------------------------->
@@ -97,20 +97,7 @@
 						<input type="email" value="" name="email" id="connectionEmail" class="form-control" autocomplete="email" required autofocus>
 						<label for="inputPassword">Mot de passe</label>
 						<input type="password" name="password" id="connectionPassword" class="form-control" autocomplete="current-password" required>
-
-						<input
-						type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-						{# Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-																																																												See https://symfony.com/doc/current/security/remember_me.html #}
-
-						<div class="checkbox mb-3">
-							<label>
-								<input type="checkbox" name="_remember_me">
-								Se souvenir de moi
-							</label>
-						</div>
-
+						<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 						<button class="btn btn-lg btn-success" type="submit">
 							Valider
 						</button>
@@ -130,35 +117,36 @@
 					<h5 class="modal-title" id="staticBackdropLabel">Inscription</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
-				<div class="modal-body">
+				<div
+					class="modal-body">
 					{# <form method="post" action="{{ path('app_register')}}">
-											<div class="mb-3">
-												<label for="Pseudo1" class="form-label">Prénom</label>
-												<input type="text" name="pseudo" class="form-control" id="registrationFirstname">
-											</div>
-											<div class="mb-3">
-												<label for="Pseudo1" class="form-label">Nom</label>
-												<input type="text" name="pseudo" class="form-control" id="registrationLastname">
-											</div>
-											<div class="mb-3">
-												<label for="Email1" class="form-label">Email</label>
-												<input type="email" name="email" class="form-control" id="registrationEmail">
-											</div>
-											<div class="mb-3">
-												<label for="password" class="form-label">Mot de passe</label>
-												<input type="password" name="password" class="form-control" id="registrationPassword">
-											</div>
-											<div class="mb-3">
-												<label for="password_retype" class="form-label">Vérification Mot de passe</label>
-												<input type="password" name="password_retype" class="form-control" id="registrationPasswordConfirm">
-											</div>
-											<div class="form-check">
-												<input type="checkbox" class="form-check-input" id="registrationAgreeterms">
-												<label class="form-check-label" for="exampleCheck1">J'accepte les conditions de Storiz</label>
-											</div>
-											<br>
-											<button type="submit" class="btn btn-outline-success justify-content-center">Valider</button>
-										</form> #}
+																																																			<div class="mb-3">
+																																																				<label for="Pseudo1" class="form-label">Prénom</label>
+																																																				<input type="text" name="pseudo" class="form-control" id="registrationFirstname">
+																																																			</div>
+																																																			<div class="mb-3">
+																																																				<label for="Pseudo1" class="form-label">Nom</label>
+																																																				<input type="text" name="pseudo" class="form-control" id="registrationLastname">
+																																																			</div>
+																																																			<div class="mb-3">
+																																																				<label for="Email1" class="form-label">Email</label>
+																																																				<input type="email" name="email" class="form-control" id="registrationEmail">
+																																																			</div>
+																																																			<div class="mb-3">
+																																																				<label for="password" class="form-label">Mot de passe</label>
+																																																				<input type="password" name="password" class="form-control" id="registrationPassword">
+																																																			</div>
+																																																			<div class="mb-3">
+																																																				<label for="password_retype" class="form-label">Vérification Mot de passe</label>
+																																																				<input type="password" name="password_retype" class="form-control" id="registrationPasswordConfirm">
+																																																			</div>
+																																																			<div class="form-check">
+																																																				<input type="checkbox" class="form-check-input" id="registrationAgreeterms">
+																																																				<label class="form-check-label" for="exampleCheck1">J'accepte les conditions de Storiz</label>
+																																																			</div>
+																																																			<br>
+																																																			<button type="submit" class="btn btn-outline-success justify-content-center">Valider</button>
+																																																		</form> #}
 
 					{{ form_start(registrationForm, {'action': path('app_register')}) }}
 					<fieldset>
@@ -213,9 +201,11 @@
 												<button type="submit" class="btn" id="btnActionDeleteStory">
 													<i class="fi fi-rr-trash"></i>
 												</button>
-												<button type="button" class="btn" id="btnActionEditStory" data-bs-toggle="modal" data-bs-target="#modalUpdateStory" data-whatever="{{ story.id }}" data-story-id="{{ story.id }}">
-													<i class="fi fi-rr-edit"></i>
-												</button>
+												<a href="{{path('app_story_edit', {'id': story.id} )}}">
+													<button type="button" class="btn" id="btnActionEditStory">
+														<i class="fi fi-rr-edit"></i>
+													</button>
+												</a>
 											</form>
 
 										</td>
@@ -264,8 +254,8 @@
 						</div>
 					</div>
 				</div>
-			</div> 
-			#}
+			</div> #}
+
 
 	<!-- ------------------------Modal setting Category--------------------- -->
 
