@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\StoryRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\StoryRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: StoryRepository::class)]
 class Story
@@ -15,6 +16,7 @@ class Story
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['story'])]
     #[ORM\Column(length: 100)]
     private ?string $name = null;
 
@@ -22,10 +24,11 @@ class Story
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\OneToMany(mappedBy: 'id', targetEntity: Category::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'story', targetEntity: Category::class, orphanRemoval: true)]
     private Collection $categories;
 
-    #[ORM\OneToMany(mappedBy: 'id', targetEntity: Chapter::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'story', targetEntity: Chapter::class, orphanRemoval: true)]
+    #[Groups(['story'])]
     private Collection $chapters;
 
     #[ORM\OneToMany(mappedBy: 'story', targetEntity: Character::class, orphanRemoval: true)]
@@ -135,7 +138,7 @@ class Story
     /**
      * @return Collection<int, Character>
      */
-    public function gets(): Collection
+    public function getCharacters(): Collection
     {
         return $this->characters;
     }

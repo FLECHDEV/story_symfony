@@ -157,7 +157,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->stories->contains($story)) {
             $this->stories->add($story);
-            $story->setUserId($this);
+            $story->setUser($this);
         }
 
         return $this;
@@ -167,8 +167,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->stories->removeElement($story)) {
             // set the owning side to null (unless already changed)
-            if ($story->getUserId() === $this) {
-                $story->setUserId(null);
+            if ($story->getUser() === $this) {
+                $story->setUser(null);
             }
         }
 

@@ -74,7 +74,7 @@ $(document).ready(function () {
 // Affichage chapterIdeas, chapterName and indexChapter 
 
 document.addEventListener('DOMContentLoaded', function () {
-            // console.log(CKEDITOR);
+    // console.log(CKEDITOR);
 
     const dropdownItems = document.querySelectorAll('.chapterInfos > .dropdown-item');
     dropdownItems.forEach(function (item, index) {
@@ -90,14 +90,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Affichage du titre de la story dans nav
 
-//     document.addEventListener('DOMContentLoaded', function () {
-//     const dropdownStory = document.querySelectorAll('.dropdown-item story');
-//     console.log(dropdownStory);
-//     dropdownStory.forEach(function (item) {
-//         item.addEventListener('click', function () {
-//             const storyName = this.dataset.storyName;
-//             document.getElementById('displayStory').textContent = storyName;
-//             console.log(storyName);
-//         });
-//     });
-// });
+document.addEventListener('DOMContentLoaded', function () {
+    console.log(stories);
+    let storiesObject = JSON.parse(stories.replace(/&quot;/g, '"'));
+    console.log(storiesObject);
+    const dropdownStory = document.querySelectorAll('.dropdown-item.story');
+    console.log(dropdownStory);
+    dropdownStory.forEach(function (item) {
+        console.log(item.dataset.story);
+    });
+});

@@ -2,9 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\ChapterRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ChapterRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 #[ORM\Entity(repositoryClass: ChapterRepository::class)]
 class Chapter
@@ -15,13 +17,16 @@ class Chapter
     private ?int $id = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['story'])]
     private ?string $ideas = null;
 
     #[ORM\ManyToOne(inversedBy: 'chapters')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Ignore]
     private ?Story $story = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(['story'])]
     private ?string $name = null;
 
     public function getId(): ?int
@@ -29,12 +34,12 @@ class Chapter
         return $this->id;
     }
 
-    public function getChapterIdeas(): ?string
+    public function getIdeas(): ?string
     {
         return $this->ideas;
     }
 
-    public function setChapterIdeas(?string $ideas): self
+    public function setIdeas(?string $ideas): self
     {
         $this->ideas = $ideas;
 
@@ -53,12 +58,12 @@ class Chapter
         return $this;
     }
 
-    public function getChapterName(): ?string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function setChapterName(string $name): self
+    public function setName(string $name): self
     {
         $this->name = $name;
 
