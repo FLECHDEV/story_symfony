@@ -44,16 +44,16 @@ class CharacterControllerTest extends WebTestCase
         self::assertResponseStatusCodeSame(200);
 
         $this->client->submitForm('Save', [
-            'character[character_firstname]' => 'Testing',
-            'character[character_lastname]' => 'Testing',
-            'character[character_nickname]' => 'Testing',
-            'character[character_age]' => 'Testing',
-            'character[character_job]' => 'Testing',
-            'character[character_city]' => 'Testing',
-            'character[character_ethnic]' => 'Testing',
-            'character[character_link]' => 'Testing',
-            'character[character_information]' => 'Testing',
-            'character[category_id]' => 'Testing',
+            'character[firstname]' => 'Testing',
+            'character[lastname]' => 'Testing',
+            'character[nickname]' => 'Testing',
+            'character[age]' => 'Testing',
+            'character[job]' => 'Testing',
+            'character[city]' => 'Testing',
+            'character[ethnic]' => 'Testing',
+            'character[link]' => 'Testing',
+            'character[information]' => 'Testing',
+            'character[category]' => 'Testing',
         ]);
 
         self::assertResponseRedirects('/character/');
@@ -65,16 +65,16 @@ class CharacterControllerTest extends WebTestCase
     {
         $this->markTestIncomplete();
         $fixture = new Character();
-        $fixture->setCharacter_firstname('My Title');
-        $fixture->setCharacter_lastname('My Title');
-        $fixture->setCharacter_nickname('My Title');
-        $fixture->setCharacter_age('My Title');
-        $fixture->setCharacter_job('My Title');
-        $fixture->setCharacter_city('My Title');
-        $fixture->setCharacter_ethnic('My Title');
-        $fixture->setCharacter_link('My Title');
-        $fixture->setCharacter_information('My Title');
-        $fixture->setCategory_id('My Title');
+        $fixture->setFirstname('My Title');
+        $fixture->setLastname('My Title');
+        $fixture->setNickname('My Title');
+        $fixture->setAge('My Title');
+        $fixture->setJob('My Title');
+        $fixture->setCity('My Title');
+        $fixture->setEthnic('My Title');
+        $fixture->setLink('My Title');
+        $fixture->setInformation('My Title');
+        $fixture->setCategory('My Title');
 
         $this->repository->save($fixture, true);
 
@@ -90,48 +90,48 @@ class CharacterControllerTest extends WebTestCase
     {
         $this->markTestIncomplete();
         $fixture = new Character();
-        $fixture->setCharacter_firstname('My Title');
-        $fixture->setCharacter_lastname('My Title');
-        $fixture->setCharacter_nickname('My Title');
-        $fixture->setCharacter_age('My Title');
-        $fixture->setCharacter_job('My Title');
-        $fixture->setCharacter_city('My Title');
-        $fixture->setCharacter_ethnic('My Title');
-        $fixture->setCharacter_link('My Title');
-        $fixture->setCharacter_information('My Title');
-        $fixture->setCategory_id('My Title');
+        $fixture->setFirstname('My Title');
+        $fixture->setLastname('My Title');
+        $fixture->setNickname('My Title');
+        $fixture->setAge('My Title');
+        $fixture->setJob('My Title');
+        $fixture->setCity('My Title');
+        $fixture->setEthnic('My Title');
+        $fixture->setLink('My Title');
+        $fixture->setInformation('My Title');
+        $fixture->setCategory('My Title');
 
         $this->repository->save($fixture, true);
 
         $this->client->request('GET', sprintf('%s%s/edit', $this->path, $fixture->getId()));
 
         $this->client->submitForm('Update', [
-            'character[character_firstname]' => 'Something New',
-            'character[character_lastname]' => 'Something New',
-            'character[character_nickname]' => 'Something New',
-            'character[character_age]' => 'Something New',
-            'character[character_job]' => 'Something New',
-            'character[character_city]' => 'Something New',
-            'character[character_ethnic]' => 'Something New',
-            'character[character_link]' => 'Something New',
-            'character[character_information]' => 'Something New',
-            'character[category_id]' => 'Something New',
+            'character[firstname]' => 'Something New',
+            'character[lastname]' => 'Something New',
+            'character[nickname]' => 'Something New',
+            'character[age]' => 'Something New',
+            'character[job]' => 'Something New',
+            'character[city]' => 'Something New',
+            'character[ethnic]' => 'Something New',
+            'character[link]' => 'Something New',
+            'character[information]' => 'Something New',
+            'character[category]' => 'Something New',
         ]);
 
         self::assertResponseRedirects('/character/');
 
         $fixture = $this->repository->findAll();
 
-        self::assertSame('Something New', $fixture[0]->getCharacter_firstname());
-        self::assertSame('Something New', $fixture[0]->getCharacter_lastname());
-        self::assertSame('Something New', $fixture[0]->getCharacter_nickname());
-        self::assertSame('Something New', $fixture[0]->getCharacter_age());
-        self::assertSame('Something New', $fixture[0]->getCharacter_job());
-        self::assertSame('Something New', $fixture[0]->getCharacter_city());
-        self::assertSame('Something New', $fixture[0]->getCharacter_ethnic());
-        self::assertSame('Something New', $fixture[0]->getCharacter_link());
-        self::assertSame('Something New', $fixture[0]->getCharacter_information());
-        self::assertSame('Something New', $fixture[0]->getCategory_id());
+        self::assertSame('Something New', $fixture[0]->getFirstname());
+        self::assertSame('Something New', $fixture[0]->getLastname());
+        self::assertSame('Something New', $fixture[0]->getNickname());
+        self::assertSame('Something New', $fixture[0]->getAge());
+        self::assertSame('Something New', $fixture[0]->getJob());
+        self::assertSame('Something New', $fixture[0]->getCity());
+        self::assertSame('Something New', $fixture[0]->getEthnic());
+        self::assertSame('Something New', $fixture[0]->getLink());
+        self::assertSame('Something New', $fixture[0]->getInformation());
+        self::assertSame('Something New', $fixture[0]->getCategory());
     }
 
     public function testRemove(): void
@@ -141,16 +141,16 @@ class CharacterControllerTest extends WebTestCase
         $originalNumObjectsInRepository = count($this->repository->findAll());
 
         $fixture = new Character();
-        $fixture->setCharacter_firstname('My Title');
-        $fixture->setCharacter_lastname('My Title');
-        $fixture->setCharacter_nickname('My Title');
-        $fixture->setCharacter_age('My Title');
-        $fixture->setCharacter_job('My Title');
-        $fixture->setCharacter_city('My Title');
-        $fixture->setCharacter_ethnic('My Title');
-        $fixture->setCharacter_link('My Title');
-        $fixture->setCharacter_information('My Title');
-        $fixture->setCategory_id('My Title');
+        $fixture->setFirstname('My Title');
+        $fixture->setLastname('My Title');
+        $fixture->setNickname('My Title');
+        $fixture->setAge('My Title');
+        $fixture->setJob('My Title');
+        $fixture->setCity('My Title');
+        $fixture->setEthnic('My Title');
+        $fixture->setLink('My Title');
+        $fixture->setInformation('My Title');
+        $fixture->setCategory('My Title');
 
         $this->repository->save($fixture, true);
 

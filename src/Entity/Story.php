@@ -16,27 +16,31 @@ class Story
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
-    private ?string $story_name = null;
+    private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'stories')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user_id = null;
+    private ?User $user = null;
 
-    #[ORM\OneToMany(mappedBy: 'story_id', targetEntity: Category::class)]
+    #[ORM\OneToMany(mappedBy: 'id', targetEntity: Category::class, orphanRemoval: true)]
     private Collection $categories;
 
-    #[ORM\OneToMany(mappedBy: 'story_id', targetEntity: Chapter::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'id', targetEntity: Chapter::class, orphanRemoval: true)]
     private Collection $chapters;
+
+    #[ORM\OneToMany(mappedBy: 'story', targetEntity: Character::class, orphanRemoval: true)]
+    private Collection $characters;
 
     public function __construct()
     {
         $this->categories = new ArrayCollection();
         $this->chapters = new ArrayCollection();
+        $this->characters = new ArrayCollection();
     }
 
     public function __toString()
     {
-        return $this->story_name;
+        return $this->name;
     }
 
     public function getId(): ?int
@@ -44,26 +48,26 @@ class Story
         return $this->id;
     }
 
-    public function getStoryName(): ?string
+    public function getName(): ?string
     {
-        return $this->story_name;
+        return $this->name;
     }
 
-    public function setStoryName(string $story_name): self
+    public function setName(string $name): self
     {
-        $this->story_name = $story_name;
+        $this->name = $name;
 
         return $this;
     }
 
-    public function getUserId(): ?User
+    public function getUser(): ?User
     {
-        return $this->user_id;
+        return $this->user;
     }
 
-    public function setUserId(?User $user_id): self
+    public function setUser(?User $user): self
     {
-        $this->user_id = $user_id;
+        $this->user = $user;
 
         return $this;
     }
@@ -80,7 +84,7 @@ class Story
     {
         if (!$this->categories->contains($category)) {
             $this->categories->add($category);
-            $category->setStoryId($this);
+            $category->setStory($this);
         }
 
         return $this;
@@ -90,8 +94,8 @@ class Story
     {
         if ($this->categories->removeElement($category)) {
             // set the owning side to null (unless already changed)
-            if ($category->getStoryId() === $this) {
-                $category->setStoryId(null);
+            if ($category->getStory() === $this) {
+                $category->setStory(null);
             }
         }
 
@@ -110,7 +114,7 @@ class Story
     {
         if (!$this->chapters->contains($chapter)) {
             $this->chapters->add($chapter);
-            $chapter->setStoryId($this);
+            $chapter->setStory($this);
         }
 
         return $this;
@@ -120,8 +124,38 @@ class Story
     {
         if ($this->chapters->removeElement($chapter)) {
             // set the owning side to null (unless already changed)
-            if ($chapter->getStoryId() === $this) {
-                $chapter->setStoryId(null);
+            if ($chapter->getStory() === $this) {
+                $chapter->setStory(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Character>
+     */
+    public function gets(): Collection
+    {
+        return $this->characters;
+    }
+
+    public function addCharacter(Character $character): self
+    {
+        if (!$this->characters->contains($character)) {
+            $this->characters->add($character);
+            $character->setStory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCharacter(Character $character): self
+    {
+        if ($this->characters->removeElement($character)) {
+            // set the owning side to null (unless already changed)
+            if ($character->getStory() === $this) {
+                $character->setStory(null);
             }
         }
 

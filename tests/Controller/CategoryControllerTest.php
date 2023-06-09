@@ -44,8 +44,8 @@ class CategoryControllerTest extends WebTestCase
         self::assertResponseStatusCodeSame(200);
 
         $this->client->submitForm('Save', [
-            'category[category_name]' => 'Testing',
-            'category[story_id]' => 'Testing',
+            'category[name]' => 'Testing',
+            'category[id]' => 'Testing',
         ]);
 
         self::assertResponseRedirects('/category/');
@@ -57,8 +57,8 @@ class CategoryControllerTest extends WebTestCase
     {
         $this->markTestIncomplete();
         $fixture = new Category();
-        $fixture->setCategory_name('My Title');
-        $fixture->setStory_id('My Title');
+        $fixture->setName('My Title');
+        $fixture->setId('My Title');
 
         $this->repository->save($fixture, true);
 
@@ -74,24 +74,24 @@ class CategoryControllerTest extends WebTestCase
     {
         $this->markTestIncomplete();
         $fixture = new Category();
-        $fixture->setCategory_name('My Title');
-        $fixture->setStory_id('My Title');
+        $fixture->setName('My Title');
+        $fixture->setId('My Title');
 
         $this->repository->save($fixture, true);
 
         $this->client->request('GET', sprintf('%s%s/edit', $this->path, $fixture->getId()));
 
         $this->client->submitForm('Update', [
-            'category[category_name]' => 'Something New',
-            'category[story_id]' => 'Something New',
+            'category[name]' => 'Something New',
+            'category[id]' => 'Something New',
         ]);
 
         self::assertResponseRedirects('/category/');
 
         $fixture = $this->repository->findAll();
 
-        self::assertSame('Something New', $fixture[0]->getCategory_name());
-        self::assertSame('Something New', $fixture[0]->getStory_id());
+        self::assertSame('Something New', $fixture[0]->getName());
+        self::assertSame('Something New', $fixture[0]->getId());
     }
 
     public function testRemove(): void
@@ -101,8 +101,8 @@ class CategoryControllerTest extends WebTestCase
         $originalNumObjectsInRepository = count($this->repository->findAll());
 
         $fixture = new Category();
-        $fixture->setCategory_name('My Title');
-        $fixture->setStory_id('My Title');
+        $fixture->setName('My Title');
+        $fixture->setId('My Title');
 
         $this->repository->save($fixture, true);
 

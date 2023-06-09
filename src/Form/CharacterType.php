@@ -12,17 +12,16 @@ class CharacterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('character_firstname')
-            ->add('character_lastname')
-            ->add('character_nickname')
-            ->add('character_age')
-            ->add('character_job')
-            ->add('character_city')
-            ->add('character_ethnic')
-            ->add('character_link')
-            ->add('character_information')
-            ->add('category_id')
-        ;
+            ->add('firstname')
+            ->add('lastname')
+            ->add('nickname')
+            ->add('age')
+            ->add('job')
+            ->add('city')
+            ->add('ethnic')
+            ->add('link')
+            ->add('information')
+            ->add('category');
     }
 
     public function configureOptions(OptionsResolver $resolver): void

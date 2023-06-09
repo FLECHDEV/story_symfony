@@ -16,13 +16,13 @@ class Category
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
-    private ?string $category_name = null;
+    private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'categories')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Story $story_id = null;
+    private ?Story $story = null;
 
-    #[ORM\OneToMany(mappedBy: 'category_id', targetEntity: Character::class)]
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Character::class)]
     private Collection $characters;
 
     public function __construct()
@@ -32,7 +32,7 @@ class Category
 
     public function __toString()
     {
-        return $this->category_name;
+        return $this->name;
     }
 
     public function getId(): ?int
@@ -40,26 +40,26 @@ class Category
         return $this->id;
     }
 
-    public function getCategoryName(): ?string
+    public function getName(): ?string
     {
-        return $this->category_name;
+        return $this->name;
     }
 
-    public function setCategoryName(string $category_name): self
+    public function setName(string $name): self
     {
-        $this->category_name = $category_name;
+        $this->name = $name;
 
         return $this;
     }
 
-    public function getStoryId(): ?Story
+    public function getStory(): ?Story
     {
-        return $this->story_id;
+        return $this->id;
     }
 
-    public function setStoryId(?Story $story_id): self
+    public function setStory(?Story $story): self
     {
-        $this->story_id = $story_id;
+        $this->story = $story;
 
         return $this;
     }
@@ -67,7 +67,7 @@ class Category
     /**
      * @return Collection<int, Character>
      */
-    public function getCharacters(): Collection
+    public function gets(): Collection
     {
         return $this->characters;
     }
@@ -76,7 +76,7 @@ class Category
     {
         if (!$this->characters->contains($character)) {
             $this->characters->add($character);
-            $character->setCategoryId($this);
+            $character->setCategory($this);
         }
 
         return $this;
@@ -86,8 +86,8 @@ class Category
     {
         if ($this->characters->removeElement($character)) {
             // set the owning side to null (unless already changed)
-            if ($character->getCategoryId() === $this) {
-                $character->setCategoryId(null);
+            if ($character->getCategory() === $this) {
+                $character->setCategory(null);
             }
         }
 

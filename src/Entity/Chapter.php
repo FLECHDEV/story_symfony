@@ -15,14 +15,14 @@ class Chapter
     private ?int $id = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $chapter_ideas = null;
+    private ?string $ideas = null;
 
     #[ORM\ManyToOne(inversedBy: 'chapters')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Story $story_id = null;
+    private ?Story $story = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $chapter_name = null;
+    private ?string $name = null;
 
     public function getId(): ?int
     {
@@ -31,36 +31,36 @@ class Chapter
 
     public function getChapterIdeas(): ?string
     {
-        return $this->chapter_ideas;
+        return $this->ideas;
     }
 
-    public function setChapterIdeas(?string $chapter_ideas): self
+    public function setChapterIdeas(?string $ideas): self
     {
-        $this->chapter_ideas = $chapter_ideas;
+        $this->ideas = $ideas;
 
         return $this;
     }
 
-    public function getStoryId(): ?Story
+    public function getStory(): ?Story
     {
-        return $this->story_id;
+        return $this->story;
     }
 
-    public function setStoryId(?Story $story_id): self
+    public function setStory(?Story $story): self
     {
-        $this->story_id = $story_id;
+        $this->story = $story;
 
         return $this;
     }
 
     public function getChapterName(): ?string
     {
-        return $this->chapter_name;
+        return $this->name;
     }
 
-    public function setChapterName(string $chapter_name): self
+    public function setChapterName(string $name): self
     {
-        $this->chapter_name = $chapter_name;
+        $this->name = $name;
 
         return $this;
     }

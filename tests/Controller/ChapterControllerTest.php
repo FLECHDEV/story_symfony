@@ -44,9 +44,9 @@ class ChapterControllerTest extends WebTestCase
         self::assertResponseStatusCodeSame(200);
 
         $this->client->submitForm('Save', [
-            'chapter[chapter_ideas]' => 'Testing',
-            'chapter[chapter_name]' => 'Testing',
-            'chapter[story_id]' => 'Testing',
+            'chapter[ideas]' => 'Testing',
+            'chapter[name]' => 'Testing',
+            'chapter[id]' => 'Testing',
         ]);
 
         self::assertResponseRedirects('/chapter/');
@@ -58,9 +58,9 @@ class ChapterControllerTest extends WebTestCase
     {
         $this->markTestIncomplete();
         $fixture = new Chapter();
-        $fixture->setChapter_ideas('My Title');
-        $fixture->setChapter_name('My Title');
-        $fixture->setStory_id('My Title');
+        $fixture->setIdeas('My Title');
+        $fixture->setName('My Title');
+        $fixture->setId('My Title');
 
         $this->repository->save($fixture, true);
 
@@ -76,27 +76,27 @@ class ChapterControllerTest extends WebTestCase
     {
         $this->markTestIncomplete();
         $fixture = new Chapter();
-        $fixture->setChapter_ideas('My Title');
-        $fixture->setChapter_name('My Title');
-        $fixture->setStory_id('My Title');
+        $fixture->setIdeas('My Title');
+        $fixture->setName('My Title');
+        $fixture->setId('My Title');
 
         $this->repository->save($fixture, true);
 
         $this->client->request('GET', sprintf('%s%s/edit', $this->path, $fixture->getId()));
 
         $this->client->submitForm('Update', [
-            'chapter[chapter_ideas]' => 'Something New',
-            'chapter[chapter_name]' => 'Something New',
-            'chapter[story_id]' => 'Something New',
+            'chapter[ideas]' => 'Something New',
+            'chapter[name]' => 'Something New',
+            'chapter[id]' => 'Something New',
         ]);
 
         self::assertResponseRedirects('/chapter/');
 
         $fixture = $this->repository->findAll();
 
-        self::assertSame('Something New', $fixture[0]->getChapter_ideas());
-        self::assertSame('Something New', $fixture[0]->getChapter_name());
-        self::assertSame('Something New', $fixture[0]->getStory_id());
+        self::assertSame('Something New', $fixture[0]->getIdeas());
+        self::assertSame('Something New', $fixture[0]->getName());
+        self::assertSame('Something New', $fixture[0]->getId());
     }
 
     public function testRemove(): void
@@ -106,9 +106,9 @@ class ChapterControllerTest extends WebTestCase
         $originalNumObjectsInRepository = count($this->repository->findAll());
 
         $fixture = new Chapter();
-        $fixture->setChapter_ideas('My Title');
-        $fixture->setChapter_name('My Title');
-        $fixture->setStory_id('My Title');
+        $fixture->setIdeas('My Title');
+        $fixture->setName('My Title');
+        $fixture->setId('My Title');
 
         $this->repository->save($fixture, true);
 

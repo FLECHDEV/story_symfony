@@ -37,16 +37,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 100)]
     private ?string $lastname = null;
 
-    #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Story::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Story::class, orphanRemoval: true)]
     private Collection $stories;
 
-    
+
     public function __construct()
     {
         $this->stories = new ArrayCollection();
     }
-    
-    public function __toString() {
+
+    public function __toString()
+    {
         return $this->firstname;
     }
 

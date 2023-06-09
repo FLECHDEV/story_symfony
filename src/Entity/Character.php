@@ -17,157 +17,173 @@ class Character
     private ?int $id = null;
 
     #[ORM\Column(length: 100, nullable: true)]
-    private ?string $character_firstname = null;
+    private ?string $firstname = null;
 
     #[ORM\Column(length: 100, nullable: true)]
-    private ?string $character_lastname = null;
+    private ?string $lastname = null;
 
     #[ORM\Column(length: 100)]
-    private ?string $character_nickname = null;
+    private ?string $nickname = null;
 
     #[ORM\Column(length: 3, nullable: true)]
-    private ?string $character_age = null;
+    private ?string $age = null;
 
     #[ORM\Column(length: 100, nullable: true)]
-    private ?string $character_job = null;
+    private ?string $job = null;
 
     #[ORM\Column(length: 100, nullable: true)]
-    private ?string $character_city = null;
+    private ?string $city = null;
 
     #[ORM\Column(length: 100, nullable: true)]
-    private ?string $character_ethnic = null;
+    private ?string $ethnic = null;
 
     #[ORM\Column(length: 100, nullable: true)]
-    private ?string $character_link = null;
+    private ?string $link = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $character_information = null;
+    private ?string $information = null;
 
     #[ORM\ManyToOne(inversedBy: 'characters')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Category $category_id = null;
+    private ?Category $category = null;
+
+    #[ORM\ManyToOne(inversedBy: 'characters')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Story $story = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getCharacterFirstname(): ?string
+    public function getFirstname(): ?string
     {
-        return $this->character_firstname;
+        return $this->firstname;
     }
 
-    public function setCharacterFirstname(?string $character_firstname): self
+    public function setFirstname(?string $firstname): self
     {
-        $this->character_firstname = $character_firstname;
+        $this->firstname = $firstname;
 
         return $this;
     }
 
-    public function getCharacterLastname(): ?string
+    public function getLastname(): ?string
     {
-        return $this->character_lastname;
+        return $this->lastname;
     }
 
-    public function setCharacterLastname(?string $character_lastname): self
+    public function setLastname(?string $lastname): self
     {
-        $this->character_lastname = $character_lastname;
+        $this->lastname = $lastname;
 
         return $this;
     }
 
-    public function getCharacterNickname(): ?string
+    public function getNickname(): ?string
     {
-        return $this->character_nickname;
+        return $this->nickname;
     }
 
-    public function setCharacterNickname(string $character_nickname): self
+    public function setNickname(string $nickname): self
     {
-        $this->character_nickname = $character_nickname;
+        $this->nickname = $nickname;
 
         return $this;
     }
 
-    public function getCharacterAge(): ?string
+    public function getAge(): ?string
     {
-        return $this->character_age;
+        return $this->age;
     }
 
-    public function setCharacterAge(?string $character_age): self
+    public function setAge(?string $age): self
     {
-        $this->character_age = $character_age;
+        $this->age = $age;
 
         return $this;
     }
 
-    public function getCharacterJob(): ?string
+    public function getJob(): ?string
     {
-        return $this->character_job;
+        return $this->job;
     }
 
-    public function setCharacterJob(?string $character_job): self
+    public function setJob(?string $job): self
     {
-        $this->character_job = $character_job;
+        $this->job = $job;
 
         return $this;
     }
 
-    public function getCharacterCity(): ?string
+    public function getCity(): ?string
     {
-        return $this->character_city;
+        return $this->city;
     }
 
-    public function setCharacterCity(?string $character_city): self
+    public function setCity(?string $city): self
     {
-        $this->character_city = $character_city;
+        $this->city = $city;
 
         return $this;
     }
 
-    public function getCharacterEthnic(): ?string
+    public function getEthnic(): ?string
     {
-        return $this->character_ethnic;
+        return $this->ethnic;
     }
 
-    public function setCharacterEthnic(?string $character_ethnic): self
+    public function setEthnic(?string $ethnic): self
     {
-        $this->character_ethnic = $character_ethnic;
+        $this->ethnic = $ethnic;
 
         return $this;
     }
 
-    public function getCharacterLink(): ?string
+    public function getLink(): ?string
     {
-        return $this->character_link;
+        return $this->link;
     }
 
-    public function setCharacterLink(?string $character_link): self
+    public function setLink(?string $link): self
     {
-        $this->character_link = $character_link;
+        $this->link = $link;
 
         return $this;
     }
 
-    public function getCharacterInformation(): ?string
+    public function getInformation(): ?string
     {
-        return $this->character_information;
+        return $this->information;
     }
 
-    public function setCharacterInformation(?string $character_information): self
+    public function setInformation(?string $information): self
     {
-        $this->character_information = $character_information;
+        $this->information = $information;
 
         return $this;
     }
 
-    public function getCategoryId(): ?Category
+    public function getCategory(): ?Category
     {
-        return $this->category_id;
+        return $this->category;
     }
 
-    public function setCategoryId(?Category $category_id): self
+    public function setCategory(?Category $category): self
     {
-        $this->category_id = $category_id;
+        $this->category = $category;
+
+        return $this;
+    }
+
+    public function getStory(): ?Story
+    {
+        return $this->story;
+    }
+
+    public function setStory(?Story $story): self
+    {
+        $this->story = $story;
 
         return $this;
     }

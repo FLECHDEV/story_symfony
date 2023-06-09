@@ -13,10 +13,9 @@ class ChapterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('chapter_ideas', CKEditorType::class)
-            ->add('chapter_name')
-            ->add('story_id')
-        ;
+            ->add('ideas', CKEditorType::class)
+            ->add('name')
+            ->add('id');
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -19,8 +19,7 @@ class AppFixtures extends Fixture
     public function __construct(
         // private PasswordHasherFactoryInterface $passwordHasherFactoryInterface
         private UserPasswordHasherInterface $passwordHasher
-    )
-    {
+    ) {
     }
 
     public function load(ObjectManager $manager): void
@@ -45,54 +44,55 @@ class AppFixtures extends Fixture
         $manager->persist($user);
 
 
+        $categories = [];
+        for ($i = 0; $i < 4; $i++) {
+            $category = new Category();
+            $category->setName($faker->word());
+            $manager->persist($category);
+            $categories[] = $category;
+        }
+
         // Creating stories
         $stories = [];
         for ($i = 0; $i < 4; $i++) {
             $story = new Story();
-            $story->setStoryName($faker->sentence());
-            $story->setUserId($user);
+            $story->setName($faker->sentence());
+            $story->setUser($user);
+            $story->addCategory($categories[$i]);
             $stories[] = $story;
             $manager->persist($story);
         }
 
         $chapters = [];
-        for ($i = 0; $i < 4; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $chapter = new Chapter();
             $chapter->setChapterName($faker->word(12));
             $chapter->setChapterIdeas($faker->text());
-            $chapter->setStoryId($story);
+            $chapter->setStory($stories[rand(0, count($stories) - 1)]);
             $manager->persist($chapter);
             $chapters[] = $chapter;
         }
-
-        $categories = [];
-        for ($i = 0; $i < 5; $i++) {
-            $category = new Category();
-            $category->setCategoryName($faker->word());
-            $category->setStoryId($stories[rand(0, count($stories) - 1)]);
-            $manager->persist($category);
-            $categories[] = $category;
-        }
-
 
 
         $characters = [];
         for ($i = 0; $i < 6; $i++) {
             $character = new Character();
-            $character->setCharacterLastname($faker->lastName());
-            $character->setCharacterFirstname($faker->firstName());
-            $character->setCharacterNickname($faker->name());
-            $character->setCharacterCity($faker->city());
-            $character->setCharacterInformation($faker->text());
-            $character->setCharacterLink($faker->text(100));
-            $character->setCharacterJob($faker->jobTitle());
-            $character->setCharacterAge($faker->numberBetween(2, 90));
-            $character->setCharacterEthnic(array_rand(['Caucasien', 'Asiatique', 'africain']));
-            $character->setCategoryId($categories[rand(0, count($categories) - 1)]);
+            $character->setLastname($faker->lastName());
+            $character->setFirstname($faker->firstName());
+            $character->setNickname($faker->name());
+            $character->setCity($faker->city());
+            $character->setInformation($faker->text());
+            $character->setLink($faker->text(100));
+            $character->setJob($faker->jobTitle());
+            $character->setAge($faker->numberBetween(2, 90));
+            $character->setEthnic(array_rand(['Caucasien', 'Asiatique', 'africain']));
+            $storyRelated = $stories[rand(0, count($stories) - 1)];
+            $character->setStory($storyRelated);
+            $categoriesOfStory = $storyRelated->getCategories();
+            $character->setCategory($categoriesOfStory[rand(0, count($categoriesOfStory) - 1)]);
             $manager->persist($character);
-            $characters[] = $category;
+            $characters[] = $character;
         }
-
 
 
         $manager->flush();

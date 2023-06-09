@@ -6,11 +6,11 @@
 {% block body %}
 
 	{# {% include "includes/nav.html.twig" %}
-											{% include "includes/settings.html.twig" %}
-											{% include "includes/creation.html.twig" %}
-											{% include "includes/modals/login.modal.html.twig" %}
-											{% include "includes/modals/registration.modal.html.twig" %}
-											{{ include('includes/modals/modals.html.twig') }} #}
+															{% include "includes/settings.html.twig" %}
+															{% include "includes/creation.html.twig" %}
+															{% include "includes/modals/login.modal.html.twig" %}
+															{% include "includes/modals/registration.modal.html.twig" %}
+															{{ include('includes/modals/modals.html.twig') }} #}
 
 
 	<!-- ----------------------Navigation-------------------------->
@@ -41,7 +41,7 @@
 										</button>
 										{% for story in stories %}
 											<li>
-												<a class="dropdown-item story" id="dropdownStory">{{ story.storyName }}</a>
+												<a class="dropdown-item story" id="dropdownStory">{{ story.name }}</a>
 											</li>
 										{% else %}
 											<li>
@@ -120,33 +120,33 @@
 				<div
 					class="modal-body">
 					{# <form method="post" action="{{ path('app_register')}}">
-																																																			<div class="mb-3">
-																																																				<label for="Pseudo1" class="form-label">Prénom</label>
-																																																				<input type="text" name="pseudo" class="form-control" id="registrationFirstname">
-																																																			</div>
-																																																			<div class="mb-3">
-																																																				<label for="Pseudo1" class="form-label">Nom</label>
-																																																				<input type="text" name="pseudo" class="form-control" id="registrationLastname">
-																																																			</div>
-																																																			<div class="mb-3">
-																																																				<label for="Email1" class="form-label">Email</label>
-																																																				<input type="email" name="email" class="form-control" id="registrationEmail">
-																																																			</div>
-																																																			<div class="mb-3">
-																																																				<label for="password" class="form-label">Mot de passe</label>
-																																																				<input type="password" name="password" class="form-control" id="registrationPassword">
-																																																			</div>
-																																																			<div class="mb-3">
-																																																				<label for="password_retype" class="form-label">Vérification Mot de passe</label>
-																																																				<input type="password" name="password_retype" class="form-control" id="registrationPasswordConfirm">
-																																																			</div>
-																																																			<div class="form-check">
-																																																				<input type="checkbox" class="form-check-input" id="registrationAgreeterms">
-																																																				<label class="form-check-label" for="exampleCheck1">J'accepte les conditions de Storiz</label>
-																																																			</div>
-																																																			<br>
-																																																			<button type="submit" class="btn btn-outline-success justify-content-center">Valider</button>
-																																																		</form> #}
+																																																																							<div class="mb-3">
+																																																																								<label for="Pseudo1" class="form-label">Prénom</label>
+																																																																								<input type="text" name="pseudo" class="form-control" id="registrationFirstname">
+																																																																							</div>
+																																																																							<div class="mb-3">
+																																																																								<label for="Pseudo1" class="form-label">Nom</label>
+																																																																								<input type="text" name="pseudo" class="form-control" id="registrationLastname">
+																																																																							</div>
+																																																																							<div class="mb-3">
+																																																																								<label for="Email1" class="form-label">Email</label>
+																																																																								<input type="email" name="email" class="form-control" id="registrationEmail">
+																																																																							</div>
+																																																																							<div class="mb-3">
+																																																																								<label for="password" class="form-label">Mot de passe</label>
+																																																																								<input type="password" name="password" class="form-control" id="registrationPassword">
+																																																																							</div>
+																																																																							<div class="mb-3">
+																																																																								<label for="password_retype" class="form-label">Vérification Mot de passe</label>
+																																																																								<input type="password" name="password_retype" class="form-control" id="registrationPasswordConfirm">
+																																																																							</div>
+																																																																							<div class="form-check">
+																																																																								<input type="checkbox" class="form-check-input" id="registrationAgreeterms">
+																																																																								<label class="form-check-label" for="exampleCheck1">J'accepte les conditions de Storiz</label>
+																																																																							</div>
+																																																																							<br>
+																																																																							<button type="submit" class="btn btn-outline-success justify-content-center">Valider</button>
+																																																																						</form> #}
 
 					{{ form_start(registrationForm, {'action': path('app_register')}) }}
 					<fieldset>
@@ -194,9 +194,9 @@
 								{% for story in stories %}
 									<tr {{story.id}}>
 										<td class="text-center"></td>
-										<td>{{ story.storyName }}</td>
+										<td>{{ story.name }}</td>
 										<td class="td-actions text-right">
-											<form method="post" action="{{path('app_story_delete', {'id': story.id})}}" onsubmit="return confirm('Supprimer la Story : {{ story.storyName }} ?');">
+											<form method="post" action="{{path('app_story_delete', {'id': story.id})}}" onsubmit="return confirm('Supprimer la Story : {{ story.name }} ?');">
 												<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ story.id) }}">
 												<button type="submit" class="btn" id="btnActionDeleteStory">
 													<i class="fi fi-rr-trash"></i>
@@ -231,30 +231,30 @@
 	<!-- ------------------------Modal update Story--------------------- -->
 
 	{# <div class="modal fade" id="modalUpdateStory" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="staticBackdropLabel">Renommer Story</h5>
-							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-						</div>
-						<div class="modal-body ">
-							<form method="post" action="{{ path('app_story_edit', {'id': story.id}) }}" onsubmit="return confirm('Mettre à jour la Story : {{ story.storyName }} ?');" id="modalEditStory">
-								<input type="hidden" name="_token" value="{{ csrf_token('update' ~ story.id) }}">
-								<div class="mb-3">
-									<label for="nextStory" class="form-label">Titre actuel</label>
-									<input type="text" readonly value="{{ story.storyName }}" name="nextStory" class="form-control" id="currentStory" data-story-id="{{ story.id }}">
-		
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="staticBackdropLabel">Renommer Story</h5>
+											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+										</div>
+										<div class="modal-body ">
+											<form method="post" action="{{ path('app_story_edit', {'id': story.id}) }}" onsubmit="return confirm('Mettre à jour la Story : {{ story.name }} ?');" id="modalEditStory">
+												<input type="hidden" name="_token" value="{{ csrf_token('update' ~ story.id) }}">
+												<div class="mb-3">
+													<label for="nextStory" class="form-label">Titre actuel</label>
+													<input type="text" readonly value="{{ story.name }}" name="nextStory" class="form-control" id="currentStory" data-story-id="{{ story.id }}">
+						
+												</div>
+												<div class="mb-3">
+													<label for="updateStory" class="form-label">Nouveau titre</label>
+													<input type="text" name="updateStory" class="form-control" id="updateStory">
+												</div>
+												<buttonValider type="submit" class="btn btn-outline-success justify-content-center" href="#">Actualiser</button>
+											</form>
+										</div>
+									</div>
 								</div>
-								<div class="mb-3">
-									<label for="updateStory" class="form-label">Nouveau titre</label>
-									<input type="text" name="updateStory" class="form-control" id="updateStory">
-								</div>
-								<buttonValider type="submit" class="btn btn-outline-success justify-content-center" href="#">Actualiser</button>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div> #}
+							</div> #}
 
 
 	<!-- ------------------------Modal setting Category--------------------- -->
@@ -561,8 +561,8 @@
 										<a class="characterId" data-toggle="collapse" data-target="#collapse{{character.id}}" aria-expanded="false" aria-controls="collapse{{character.id}}">
 											<p class="nameCharacter" id="nameCharacter{{character.id}}">
 												<i class="fa fa-user"></i>
-												<span id='character{{character.id}}FirstName'>{{character.characterFirstname}}</span>
-												<span id='character{{character.id}}LastName'>{{character.characterlastname}}</span>
+												<span id='character{{character.id}}FirstName'>{{character.firstname}}</span>
+												<span id='character{{character.id}}LastName'>{{character.lastname}}</span>
 											</p>
 											<i class="fa fa-chevron-down toggle"></i>
 										</a>
@@ -570,7 +570,7 @@
 								</div>
 								<div id="collapse{{character.id}}" class="collapse show" aria-labelledby="heading{{character.id}}" data-parent="#accordionCharacters">
 									<div class="card-body">
-										<form method="post" action="{{path('app_character_delete', {'id': character.id})}}" onsubmit="return confirm('Supprimer le personnage : {{character.characterFirstname}} {{character.characterlastname}} ?');">
+										<form method="post" action="{{path('app_character_delete', {'id': character.id})}}" onsubmit="return confirm('Supprimer le personnage : {{character.firstname}} {{character.lastname}} ?');">
 											<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ character.id) }}">
 											<button type="submit" type="button" class="btn">
 												<i class="fi fi-rr-trash"></i>
@@ -581,22 +581,22 @@
 											<i class="fi fi-rr-edit"></i>
 										</a>
 										<p class="text-justify">Profession :
-											{{character.characterJob}}</p>
+											{{character.job}}</p>
 										<p class="text-justify">Age :
-											{{character.characterAge}}
+											{{character.age}}
 										</p>
 										<p class="text-justify">Ville :
-											{{character.characterCity}}
+											{{character.city}}
 										</p>
 										<p class="text-justify">Surnom :
-											{{character.characterNickname}}</p>
+											{{character.nickname}}</p>
 										<p class="text-justify">Éthnie :
-											{{character.characterEthnic}}</p>
+											{{character.ethnic}}</p>
 										<p>
 											<i class="fi fi-sr-users-alt"></i>Liens :
-											{{character.characterLink}}</p>
+											{{character.link}}</p>
 										<p class="text-justify">Infos :
-											{{character.characterInformation}}
+											{{character.information}}
 										</p>
 									</div>
 								</div>
