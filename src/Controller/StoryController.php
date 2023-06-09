@@ -43,7 +43,7 @@ class StoryController extends AbstractController
     #[Route('/{id}', name: 'app_story_show', methods: ['GET'])]
     public function show(Story $story): Response
     {
-        return $this->render('story/show.html.twig', [
+        return $this->render('app_main', [
             'story' => $story,
         ]);
     }

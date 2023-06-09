@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Story;
 use App\Form\StoryType;
 use App\Repository\StoryRepository;
@@ -11,6 +12,8 @@ use App\Repository\CharacterRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Form\RegistrationFormType;
+
 
 class MainController extends AbstractController
 {
@@ -30,13 +33,19 @@ class MainController extends AbstractController
         $categories = $categoryRepository->findAll();
         // get all characters
         $characters = $characterRepository->findAll();
-        // Get return twig rendering page
+
+        $user = new User();
+        $registrationForm = $this->createForm(RegistrationFormType::class, $user);
+
+
+        // return twig rendering page
         return $this->render('main/index.html.twig', [
             'controller_name' => 'MainController',
             'stories' => $stories,
             'chapters' => $chapters,
             'characters' => $characters,
-            'categories' => $categories
+            'categories' => $categories,
+            'registrationForm' => $registrationForm,
         ]);
     }
 }
