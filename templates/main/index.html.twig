@@ -9,26 +9,22 @@
 
 	{% set chapters = storyTwig.chapters %}
 	{% set characters = storyTwig.characters %}
-	<script type="text/javascript">
-		var stories = '{{ stories | serialize('json', { groups: 'story'})|json_encode() }}';
-	</script>
 
 	<!-- ----------------------Navigation-------------------------->
 
 	<nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
-		<div class="container px-4 px-lg-5">
-			<a class="navbar-brand" href="{{path('app_main')}}" title="Storiz">STORIZ
-				<span id="displayStory"></span>
-			</a>
+		<div class="container px-5 px-lg-5">
+			<a class="navbar-brand" title="Storiz">STORIZ</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" alt="Menu">
 				Menu
 				<i class="fas fa-bars"></i>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarResponsive">
-				<ul class="navbar-nav ms-auto py-4 py-lg-0">
+				<ul class="navbar-nav ms-auto py-4 py-lg-0 ">
 					{% if app.user %}
+						<span class="navbar-text" id="navbarFlash">{% include "partials/_flash.html.twig" %}</span>
 						<li class="nav-item">
-							<a class="nav-link px-lg-3 py-3 py-lg-4" href="{{path('app_logout')}}" alt="DéConnexion">Deconnexion</a>
+							<a class="nav-link px-lg-3 py-3 py-lg-4" href="{{path('app_logout')}}" alt="Déconnexion">Deconnexion</a>
 						</li>
 						<div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
 							<ul class="navbar-nav" id="ulStory">
@@ -42,7 +38,7 @@
 										</button>
 										{% for story in stories %}
 											<li>
-												<a class="dropdown-item story" data-story="{{ story.id|serialize(format = 'json') }}">{{ story.name }}</a>
+												<button onclick="getStoryData('{{absolute_url(path('app_api_getstory', {'story': story.id}))}}')" class="dropdown-item story">{{ story.name }}</button>
 											</li>
 										{% else %}
 											<li>
@@ -63,6 +59,10 @@
 							<a class="nav-link px-lg-3 py-3 py-lg-4" href="{{path('app_register')}}" data-bs-toggle="modal" data-bs-target="#modalInscription" alt="Inscription">Inscription</a>
 						</li>
 					{% endif %}
+					<li class="nav-item" id="buttonToggle">
+						<input type="checkbox" checked data-toggle="toggle" data-onstyle="outline-secondary" data-offstyle="outline-light" data-size="xs" id="blackAndWhite">
+					</li>
+
 				</ul>
 			</div>
 		</div>
@@ -74,9 +74,7 @@
 	<div class="modal fade" id="modalConnexion" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div
-					class="modal-header">
-					{# <h5 class="modal-title" id="staticBackdropLabel" alt="Connexion">Connexion</h5> #}
+				<div class="modal-header">
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body ">
@@ -118,36 +116,35 @@
 					<h5 class="modal-title" id="staticBackdropLabel">Inscription</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
-				<div
-					class="modal-body">
-					{# <form method="post" action="{{ path('app_register')}}">
-																																																																																																																																																																																																														<div class="mb-3">
-																																																																																																																																																																																																															<label for="Pseudo1" class="form-label">Prénom</label>
-																																																																																																																																																																																																															<input type="text" name="pseudo" class="form-control" id="registrationFirstname">
-																																																																																																																																																																																																														</div>
-																																																																																																																																																																																																														<div class="mb-3">
-																																																																																																																																																																																																															<label for="Pseudo1" class="form-label">Nom</label>
-																																																																																																																																																																																																															<input type="text" name="pseudo" class="form-control" id="registrationLastname">
-																																																																																																																																																																																																														</div>
-																																																																																																																																																																																																														<div class="mb-3">
-																																																																																																																																																																																																															<label for="Email1" class="form-label">Email</label>
-																																																																																																																																																																																																															<input type="email" name="email" class="form-control" id="registrationEmail">
-																																																																																																																																																																																																														</div>
-																																																																																																																																																																																																														<div class="mb-3">
-																																																																																																																																																																																																															<label for="password" class="form-label">Mot de passe</label>
-																																																																																																																																																																																																															<input type="password" name="password" class="form-control" id="registrationPassword">
-																																																																																																																																																																																																														</div>
-																																																																																																																																																																																																														<div class="mb-3">
-																																																																																																																																																																																																															<label for="password_retype" class="form-label">Vérification Mot de passe</label>
-																																																																																																																																																																																																															<input type="password" name="password_retype" class="form-control" id="registrationPasswordConfirm">
-																																																																																																																																																																																																														</div>
-																																																																																																																																																																																																														<div class="form-check">
-																																																																																																																																																																																																															<input type="checkbox" class="form-check-input" id="registrationAgreeterms">
-																																																																																																																																																																																																															<label class="form-check-label" for="exampleCheck1">J'accepte les conditions de Storiz</label>
-																																																																																																																																																																																																														</div>
-																																																																																																																																																																																																														<br>
-																																																																																																																																																																																																														<button type="submit" class="btn btn-outline-success justify-content-center">Valider</button>
-																																																																																																																																																																																																													</form> #}
+				<div class="modal-body">
+					<form method="post" action="{{ path('app_register')}}">
+						<div class="mb-3">
+							<label for="Pseudo1" class="form-label">Prénom</label>
+							<input type="text" name="pseudo" class="form-control" id="registrationFirstname">
+						</div>
+						<div class="mb-3">
+							<label for="Pseudo1" class="form-label">Nom</label>
+							<input type="text" name="pseudo" class="form-control" id="registrationLastname">
+						</div>
+						<div class="mb-3">
+							<label for="Email1" class="form-label">Email</label>
+							<input type="email" name="email" class="form-control" id="registrationEmail">
+						</div>
+						<div class="mb-3">
+							<label for="password" class="form-label">Mot de passe</label>
+							<input type="password" name="password" class="form-control" id="registrationPassword">
+						</div>
+						<div class="mb-3">
+							<label for="password_retype" class="form-label">Vérification Mot de passe</label>
+							<input type="password" name="password_retype" class="form-control" id="registrationPasswordConfirm">
+						</div>
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="registrationAgreeterms">
+							<label class="form-check-label" for="exampleCheck1">J'accepte les conditions de Storiz</label>
+						</div>
+						<br>
+						<button type="submit" class="btn btn-outline-success justify-content-center">Valider</button>
+					</form>
 
 					{{ form_start(registrationForm, {'action': path('app_register')}) }}
 					<fieldset>
@@ -176,7 +173,7 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="staticBackdropLabel">Tableau des storyzzz</h5>
+					<h5 class="modal-title text-center" id="staticBackdropLabel">Vos storyzzz</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalNewStory">Nouvelle Story</button>
@@ -186,8 +183,7 @@
 						<table class="table">
 							<thead>
 								<tr>
-									<th class="text-center">#</th>
-									<th>Story</th>
+									<th></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -195,7 +191,8 @@
 								{% for story in stories %}
 									<tr {{story.id}}>
 										<td class="text-center"></td>
-										<td>{{ story.name }}</td>
+										<td>
+											{{ story.name }}</td>
 										<td class="td-actions text-right">
 											<form method="post" action="{{path('app_story_delete', {'id': story.id})}}" onsubmit="return confirm('Supprimer la Story : {{ story.name }} ?');">
 												<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ story.id) }}">
@@ -229,33 +226,33 @@
 	{% include "main/new_story.html.twig" %}
 
 
-	<!-- ------------------------Modal update Story--------------------- -->
-
-	{# <div class="modal fade" id="modalUpdateStory" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-																																													<div class="modal-dialog">
-																																														<div class="modal-content">
-																																															<div class="modal-header">
-																																																<h5 class="modal-title" id="staticBackdropLabel">Renommer Story</h5>
-																																																<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-																																															</div>
-																																															<div class="modal-body ">
-																																																<form method="post" action="{{ path('app_story_edit', {'id': story.id}) }}" onsubmit="return confirm('Mettre à jour la Story : {{ story.name }} ?');" id="modalEditStory">
-																																																	<input type="hidden" name="_token" value="{{ csrf_token('update' ~ story.id) }}">
-																																																	<div class="mb-3">
-																																																		<label for="nextStory" class="form-label">Titre actuel</label>
-																																																		<input type="text" readonly value="{{ story.name }}" name="nextStory" class="form-control" id="currentStory" data-story-id="{{ story.id }}">
-																																											
-																																																	</div>
-																																																	<div class="mb-3">
-																																																		<label for="updateStory" class="form-label">Nouveau titre</label>
-																																																		<input type="text" name="updateStory" class="form-control" id="updateStory">
-																																																	</div>
-																																																	<buttonValider type="submit" class="btn btn-outline-success justify-content-center" href="#">Actualiser</button>
-																																																</form>
-																																															</div>
-																																														</div>
-																																													</div>
-																																												</div> #}
+	{# <!-- ------------------------Modal update Story--------------------- -->
+																							
+																								<div class="modal fade" id="modalUpdateStory" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+																									<div class="modal-dialog">
+																										<div class="modal-content">
+																											<div class="modal-header">
+																												<h5 class="modal-title" id="staticBackdropLabel">Renommer Story</h5>
+																												<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+																											</div>
+																											<div class="modal-body ">
+																												<form method="post" action="{{ path('app_story_edit', {'id': story.id}) }}" onsubmit="return confirm('Mettre à jour la Story : {{ story.name }} ?');" id="modalEditStory">
+																													<input type="hidden" name="_token" value="{{ csrf_token('update' ~ story.id) }}">
+																													<div class="mb-3">
+																														<label for="nextStory" class="form-label">Titre actuel</label>
+																														<input type="text" readonly value="{{ story.name }}" name="nextStory" class="form-control" id="currentStory" data-story-id="{{ story.id }}">
+																							
+																													</div>
+																													<div class="mb-3">
+																														<label for="updateStory" class="form-label">Nouveau titre</label>
+																														<input type="text" name="updateStory" class="form-control" id="updateStory">
+																													</div>
+																													<buttonValider type="submit" class="btn btn-outline-success justify-content-center" href="#">Actualiser</button>
+																												</form>
+																											</div>
+																										</div>
+																									</div>
+																								</div>  #}
 
 
 	<!-- ------------------------Modal setting Category--------------------- -->
@@ -415,14 +412,14 @@
 	</div>
 
 
-	<!-- ------------------------Modal setting Chapiter --------------------- -->
+	<!-- ------------------------Modal setting Chapter --------------------- -->
 
 
 	<div class="modal fade modal-lg" id="modalSettingChapter" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="staticBackdropLabel">Tableau des chapitres</h5>
+					<h5 class="modal-title" id="staticBackdropLabel">Vos chapitres</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body ">
@@ -430,14 +427,14 @@
 						<table class="table">
 							<thead>
 								<tr>
-									<th class="text-center">#</th>
-									<th>Chapitre</th>
+									<th class="text-center"></th>
+									<th></th>
 								</tr>
 							</thead>
 							<tbody>
 								{% for chapter in chapters %}
 									<tr {{chapter.id}}>
-										<td class="text-center">1</td>
+										<td class="text-center"></td>
 										<td>{{ chapter.Name }}</td>
 										<td class="td-actions text-right">
 											<form method="post" action="{{path('app_chapter_delete', {'id': chapter.id})}}" onsubmit="return confirm('Supprimer le chapitre : {{ chapter.name }} ?');">
@@ -501,7 +498,7 @@
 			<div class="col-lg-5">
 				<div class="dropdown">
 					<button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						Catégorie Personnage
+						Catégorie
 					</button>
 					<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton">
 						<li>

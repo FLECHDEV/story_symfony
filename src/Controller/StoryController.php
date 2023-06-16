@@ -24,6 +24,7 @@ class StoryController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $storyRepository->save($story, true);
 
+            $this->addFlash("success", "Nouvelle storiz créée");
             return $this->redirectToRoute('app_main', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -32,6 +33,7 @@ class StoryController extends AbstractController
             'form' => $form,
         ]);
     }
+    
 
     #[Route('/{id}/edit', name: 'app_story_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Story $story, StoryRepository $storyRepository): Response
@@ -41,10 +43,11 @@ class StoryController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $storyRepository->save($story, true);
-
+            
+            $this->addFlash("success", "Storiz modifiée");
             return $this->redirectToRoute('app_main', [], Response::HTTP_SEE_OTHER);
         }
-
+        
         return $this->render('story/edit.html.twig', [
             'story' => $story,
             'form' => $form,
@@ -57,7 +60,7 @@ class StoryController extends AbstractController
         if ($this->isCsrfTokenValid('delete' . $story->getId(), $request->request->get('_token'))) {
             $storyRepository->remove($story, true);
         }
-
+        $this->addFlash("success", "Storiz supprimée");
         return $this->redirectToRoute('app_main');
     }
 }

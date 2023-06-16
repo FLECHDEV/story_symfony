@@ -30,7 +30,7 @@ class ChapterController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $chapterRepository->save($chapter, true);
-
+            $this->addFlash("success", "Chapitre créé");
             return $this->redirectToRoute('app_main', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -56,7 +56,7 @@ class ChapterController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $chapterRepository->save($chapter, true);
-
+            $this->addFlash("success", "Chapitre modifié");
             return $this->redirectToRoute('app_chapter_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -72,7 +72,7 @@ class ChapterController extends AbstractController
         if ($this->isCsrfTokenValid('delete' . $chapter->getId(), $request->request->get('_token'))) {
             $chapterRepository->remove($chapter, true);
         }
-
+        $this->addFlash("success", "Chapitre supprimé");
         return $this->redirectToRoute('app_main', [], Response::HTTP_SEE_OTHER);
     }
 }

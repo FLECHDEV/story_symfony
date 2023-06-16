@@ -41,7 +41,7 @@ class RegistrationController extends AbstractController
                 $authenticator,
                 $request
             );
-
+            $this->addFlash("success", "Bienvenue sur Storiz");
             return $this->redirectToRoute('app_main');
         }
     }

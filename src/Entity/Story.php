@@ -25,6 +25,7 @@ class Story
     private ?User $user = null;
 
     #[ORM\OneToMany(mappedBy: 'story', targetEntity: Category::class, orphanRemoval: true)]
+    #[Groups(['story'])]
     private Collection $categories;
 
     #[ORM\OneToMany(mappedBy: 'story', targetEntity: Chapter::class, orphanRemoval: true)]
@@ -32,6 +33,7 @@ class Story
     private Collection $chapters;
 
     #[ORM\OneToMany(mappedBy: 'story', targetEntity: Character::class, orphanRemoval: true)]
+    #[Groups(['story'])]
     private Collection $characters;
 
     public function __construct()

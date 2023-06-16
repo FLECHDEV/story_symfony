@@ -30,7 +30,7 @@ class CharacterController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $characterRepository->save($character, true);
-
+            $this->addFlash("success", "Personnage créé");
             return $this->redirectToRoute('app_main');
         }
 
@@ -56,11 +56,11 @@ class CharacterController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $characterRepository->save($character, true);
-
+            $this->addFlash("success", "Personnage modifié");
             return $this->redirectToRoute('app_character_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('character/edit.html.twig', [
+        return $this->render('character/edit.html.twig', [
             'character' => $character,
             'form' => $form,
         ]);
@@ -72,7 +72,7 @@ class CharacterController extends AbstractController
         if ($this->isCsrfTokenValid('delete' . $character->getId(), $request->request->get('_token'))) {
             $characterRepository->remove($character, true);
         }
-
+        $this->addFlash("success", "Personnage supprimé");
         return $this->redirectToRoute('app_main');
     }
 }
