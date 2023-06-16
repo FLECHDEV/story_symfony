@@ -5,11 +5,6 @@
 
 {% block body %}
 
-	{% set storyTwig = stories[0]%}
-
-	{% set chapters = storyTwig.chapters %}
-	{% set characters = storyTwig.characters %}
-
 	<!-- ----------------------Navigation-------------------------->
 
 	<nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
@@ -38,7 +33,8 @@
 										</button>
 										{% for story in stories %}
 											<li>
-												<button onclick="getStoryData('{{absolute_url(path('app_api_getstory', {'story': story.id}))}}')" class="dropdown-item story">{{ story.name }}</button>
+												{# <button onclick="getStoryData('{{absolute_url(path('app_api_getstory', {'story': story.id}))}}')" class="dropdown-item story">{{ story.name }}</button> #}
+												<a href="{{path('app_main', {'id': story.id})}}" class="dropdown-item story">{{ story.name }}</a>
 											</li>
 										{% else %}
 											<li>
@@ -67,6 +63,7 @@
 			</div>
 		</div>
 	</nav>
+	<h2 id="selectedStory" data-id>{{selectedStory.name}}</h2>
 
 
 	<!-- ------------------------Modal Connexion--------------------- -->
@@ -227,32 +224,32 @@
 
 
 	{# <!-- ------------------------Modal update Story--------------------- -->
-																							
-																								<div class="modal fade" id="modalUpdateStory" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-																									<div class="modal-dialog">
-																										<div class="modal-content">
-																											<div class="modal-header">
-																												<h5 class="modal-title" id="staticBackdropLabel">Renommer Story</h5>
-																												<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-																											</div>
-																											<div class="modal-body ">
-																												<form method="post" action="{{ path('app_story_edit', {'id': story.id}) }}" onsubmit="return confirm('Mettre à jour la Story : {{ story.name }} ?');" id="modalEditStory">
-																													<input type="hidden" name="_token" value="{{ csrf_token('update' ~ story.id) }}">
-																													<div class="mb-3">
-																														<label for="nextStory" class="form-label">Titre actuel</label>
-																														<input type="text" readonly value="{{ story.name }}" name="nextStory" class="form-control" id="currentStory" data-story-id="{{ story.id }}">
-																							
-																													</div>
-																													<div class="mb-3">
-																														<label for="updateStory" class="form-label">Nouveau titre</label>
-																														<input type="text" name="updateStory" class="form-control" id="updateStory">
-																													</div>
-																													<buttonValider type="submit" class="btn btn-outline-success justify-content-center" href="#">Actualiser</button>
-																												</form>
-																											</div>
-																										</div>
-																									</div>
-																								</div>  #}
+																																																																														
+																																																																															<div class="modal fade" id="modalUpdateStory" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+																																																																																<div class="modal-dialog">
+																																																																																	<div class="modal-content">
+																																																																																		<div class="modal-header">
+																																																																																			<h5 class="modal-title" id="staticBackdropLabel">Renommer Story</h5>
+																																																																																			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+																																																																																		</div>
+																																																																																		<div class="modal-body ">
+																																																																																			<form method="post" action="{{ path('app_story_edit', {'id': story.id}) }}" onsubmit="return confirm('Mettre à jour la Story : {{ story.name }} ?');" id="modalEditStory">
+																																																																																				<input type="hidden" name="_token" value="{{ csrf_token('update' ~ story.id) }}">
+																																																																																				<div class="mb-3">
+																																																																																					<label for="nextStory" class="form-label">Titre actuel</label>
+																																																																																					<input type="text" readonly value="{{ story.name }}" name="nextStory" class="form-control" id="currentStory" data-story-id="{{ story.id }}">
+																																																																														
+																																																																																				</div>
+																																																																																				<div class="mb-3">
+																																																																																					<label for="updateStory" class="form-label">Nouveau titre</label>
+																																																																																					<input type="text" name="updateStory" class="form-control" id="updateStory">
+																																																																																				</div>
+																																																																																				<buttonValider type="submit" class="btn btn-outline-success justify-content-center" href="#">Actualiser</button>
+																																																																																			</form>
+																																																																																		</div>
+																																																																																	</div>
+																																																																																</div>
+																																																																															</div>  #}
 
 
 	<!-- ------------------------Modal setting Category--------------------- -->
@@ -432,7 +429,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								{% for chapter in chapters %}
+								{% for chapter in selectedStory.chapters %}
 									<tr {{chapter.id}}>
 										<td class="text-center"></td>
 										<td>{{ chapter.Name }}</td>
@@ -502,7 +499,10 @@
 					</button>
 					<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton">
 						<li>
-							<a class="dropdown-item" href="#">Tous</a>
+							<a class="dropdown-item">Tous</a>
+							{% for category in selectedStory.categories %}
+								<span onclick="filterCategory('{{category.name}}')" %>{{ category.name}}</span>
+							{% endfor %}
 						</li>
 					</ul>
 					<button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modalSettingCategory">
@@ -519,9 +519,9 @@
 
 					<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink" id="ulChapter">
 						{% if app.user %}
-							{% for chapter in chapters %}
+							{% for chapter in selectedStory.chapters %}
 								<li class="chapterInfos">
-									<a class="dropdown-item" id="dropdownChapter" data-chapter-name="{{ chapter.name }}" data-chapter-ideas="{{ chapter.ideas }}">{{ chapter.name }}</a>
+									<a class="dropdown-item" id="dropdownChapter" data-chapter-name="{{ chapter.name }}" data-chapter-ideas="{{ chapter.ideas }}" data-chapter-id="{{chapter.id}}">{{ chapter.name }}</a>
 								</li>
 							{% endfor %}
 						{% else %}
@@ -551,7 +551,7 @@
 		<div class="row">
 			<div class="col-lg-5">
 				{% if app.user %}
-					{% for character in characters %}
+					{% for character in selectedStory.characters %}
 						<div class="accordion mb-2" id="accordionCharacters">
 							<div class="card">
 								<div class="card-header" id="heading{{character.id}}">
@@ -612,8 +612,21 @@
 					class="form-group shadow-textarea" id="editor">
 					{# <textarea class="form-control z-depth-1" id="contentEditor" rows="3" placeholder="Vos idées pour ce chapitre..."></textarea> #}
 					<textarea class="form-control z-depth-1" id="contentIdeas" rows="3" placeholder="Vos idées pour ce chapitre..." style="height: 35rem; resize: none; white-space: pre-line;"></textarea>
+					<button class="btn btn-primary" onclick="updateChapter('{{absolute_url(path('app_api_updatechaptercontent', {id:'fragmentToReplace'}))}}')">sauvegarder</button>
 				</div>
 			</div>
 		</div>
 	</div>
+
+	{% if selectedStory.chapters is not empty %}
+		<script>
+			document.querySelector('#chapitreEnCours').textContent = '{{ selectedStory.chapters[0].name }}';
+document.querySelector('#contentIdeas').value = '{{ selectedStory.chapters[0].ideas }}';
+document.querySelector('#numberOfChapter').textContent = `Chapitre 1`;
+window.__chapterSelectedId__ = {{ selectedStory.chapters[0].id }};
+console.log(window.__chapterSelectedId__);
+		</script>
+	{% endif %}
+
+
 {% endblock %}

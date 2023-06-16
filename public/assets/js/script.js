@@ -8,6 +8,7 @@
 var buttonToggle = document.getElementById('buttonToggle');
 var body = document.getElementsByTagName('body')[0];
 var dark_theme = 'dark';
+var __chapterSelectedId__ = null;
 
 buttonToggle.addEventListener('click', function () {
 
@@ -93,6 +94,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.querySelector('#chapitreEnCours').textContent = chapterName;
             document.querySelector('#contentIdeas').value = chapterIdeas;
             document.querySelector('#numberOfChapter').textContent = `Chapitre ${index + 1}`;
+            window.__chapterSelectedId__ = this.dataset.chapterId
         });
     });
 });
@@ -188,12 +190,36 @@ function displayStoryParts(storyData) {
         dropdownChapter.innerHTML += '<option>' + chapterName + '</option>';
     });
 }
+
 function getStoryData(storyUrl) {
     console.log('pouet');
     console.log(storyUrl);
     $.get(storyUrl, (data) => {
-        console.log(data)
+        console.log(data);
+        $('#selectedStory')[0].textContent = data.name;
+        $('#selectedStory')[0].dataset.id = data.id;
+        console.log($('#selectedStory')[0].dataset);
     });
 }
 
+function filterCategory(categoryName) {
+    console.log(categoryName);
+}
 
+function loadInitialChapter(titre, content) {
+    document.querySelector('#chapitreEnCours').textContent = titre;
+    document.querySelector('#contentIdeas').value = content;
+    document.querySelector('#numberOfChapter').textContent = `Chapitre ${index + 1}`;
+}
+
+function updateChapter(url) {
+    console.log(url);
+    console.log(window.__chapterSelectedId__);
+    let chapterContent = document.querySelector('#contentIdeas').value;
+    console.log(chapterContent);
+    url = url.replace('fragmentToReplace', window.__chapterSelectedId__);
+    $.post(url, { chapterContent: chapterContent }).done(function (data) {
+        alert('update!!');
+        $('.alert').alert('update !!')
+    });
+}

@@ -14,6 +14,7 @@ class Story
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['story'])]
     private ?int $id = null;
 
     #[Groups(['story'])]

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Chapter;
 use App\Entity\Story;
 use App\Form\StoryType;
 use App\Repository\StoryRepository;
@@ -45,8 +46,18 @@ class ApiController extends AbstractController
 
         $normalizer = new ObjectNormalizer($classMetadataFactory);
         $serializer = new Serializer([$normalizer]);
-
         $storyJson = $serializer->normalize($story, 'json', ['groups' => 'story']);
         return new JsonResponse($storyJson);
+    }
+
+    #[Route('/chapter/{id}', methods: ['POST'])]
+    public function updateChapterContent(Request $request, string $id, EntityManagerInterface $entityManager)
+    {
+        $chapterContent = $request->request->get('chapterContent');
+        $chapter = $entityManager->getRepository(Chapter::class)->find($id);
+        $chapter->setIdeas($chapterContent);
+        $entityManager->flush();
+
+        return new JsonResponse('ok');
     }
 }
