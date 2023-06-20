@@ -3,144 +3,184 @@ body{
     color: black;
 }
 
+body.dark-theme {
+    background-color: rgb(42, 42, 42);
+    color: #FFFFFF;
+}
+
+/* --------------------- NAVBAR -------------------------------------*/
+
+.dark-theme .navbar-brand{
+    background-color :rgb(42, 42, 42);
+    color: #FFFFFF;
+}
+.dark-theme #navbarDarkDropdownMenuLink{
+    background-color :rgb(42, 42, 42);
+    color: #FFFFFF;
+}
+.dark-theme .card-body{
+    background-color :rgb(42, 42, 42);
+    color: #FFFFFF;
+}
+.dark-theme #btnlogout {
+    background-color :rgb(42, 42, 42);
+    color: #FFFFFF;
+}
+
+.highlight {
+    color: red;
+}
 
 
-/* --------------------- TOGGLE-------------------------------- */
+    /* --------------------- TITLE STORY-------------------------------- */
+#selectedStory {
+    margin-top: 20px;
+}
+
+    /* --------------------- TOGGLE-------------------------------- */
 
 #buttonToggle {
     margin-top: 23px;
 }
-
 
 .dark {
     background-color: rgb(42, 42, 42);
     color: white;
 }
 
-/* --------------------- ACCORDIONS-------------------------------- */
+/* --------------------- BODY -------------------------------------*/
 
-.accordion {
-    overflow-y: scroll;
-    scrollbar-width: none;
-}
 
-.accordion .card {
-    color: #424e5d;
-    border: 1px solid #dddddd;
-}
+    /* --------------------- ACCORDIONS Characters-------------------------------- */
 
-.accordion .card a {
-    color: #424e5d;
-    text-decoration: none;
-}
 
-.accordion .card-header {
-    background: linear-gradient(#F7F7F7, #e8e8e8);
-    padding: .75rem 1rem;
-    position: relative;
-}
+    .accordion {
+        height: 35rem;
+        overflow-y: scroll;
+        scrollbar-width: none;
+    }
 
-.accordion .card-header:hover {
-    background: linear-gradient(#F1F1F1, #F6F5F1);
-}
+    .accordion .card {
+        color: #424e5d;
+        border: 1px solid #dddddd;
+    }
 
-.accordion .card-header h2 {
-    font-size: 1rem;
-}
+    .accordion .card a {
+        color: #424e5d;
+        text-decoration: none;
+    }
 
-.accordion .fa {
-    width: 20px;
-    margin-right: .25rem;
-}
+    .accordion .card-header {
+        background: linear-gradient(#F7F7F7, #e8e8e8);
+        padding: .75rem 1rem;
+        position: relative;
+    }
 
-.accordion .card-header a {
-    float: left;
-    width: 100%;
-    cursor: pointer;
-}
+    .accordion .card-header:hover {
+        background: linear-gradient(#F1F1F1, #F6F5F1);
+    }
 
-.accordion .toggle {
-    font-size: .8rem;
-    line-height: .8rem;
-    cursor: pointer;
-    opacity: 0.7;
-    position: absolute;
-    right: 16px;
-    top: 16px;
-    width: 14px;
-    margin: 0;
-}
+    .accordion .card-header h2 {
+        font-size: 1rem;
+    }
 
-.accordion .toggle:hover {
-    opacity: 1;
-}
+    .accordion .fa {
+        width: 20px;
+        margin-right: .25rem;
+    }
 
-.accordion .card-body {
-    padding: 0;
-    background-color: #FFF;
-    color: #475465;
-    height: 250px;
-    overflow-y: scroll;
-    scrollbar-width: none;
-    padding-left: 10px;
-}
+    .accordion .card-header a {
+        float: left;
+        width: 100%;
+        cursor: pointer;
+    }
 
-.accordion .list-group-item {
-    border-radius: 0;
-    border-width: 1px 0 1px 0;
-    padding-left: 30px;
-    background: #d6dbe0;
-    font-weight: 500;
-}
+    .accordion .toggle {
+        font-size: .8rem;
+        line-height: .8rem;
+        cursor: pointer;
+        opacity: 0.7;
+        position: absolute;
+        right: 16px;
+        top: 16px;
+        width: 14px;
+        margin: 0;
+    }
 
-.accordion .list-group-item:hover {
-    background: #007bff;
-}
+    .accordion .toggle:hover {
+        opacity: 1;
+    }
 
-.accordion .list-group-item:hover a {
-    color: #fff !important;
-}
+    .accordion .card-body {
+        padding: 0;
+        background-color: #FFF;
+        color: #475465;
+        height: 250px;
+        overflow-y: scroll;
+        scrollbar-width: none;
+        padding-left: 10px;
+    }
 
-.accordion .list-group-item:hover .badge {
-    background: #fff;
-    color: #007bff;
-}
+    .accordion .list-group-item {
+        border-radius: 0;
+        border-width: 1px 0 1px 0;
+        padding-left: 30px;
+        background: #d6dbe0;
+        font-weight: 500;
+    }
 
-.accordion .list-group-item a {
-    color: #61656b;
-    display: block;
-}
+    .accordion .list-group-item:hover {
+        background: #007bff;
+    }
 
-.accordion .list-group-item .badge {
-    float: right;
-    min-width: 36px;
-}
+    .accordion .list-group-item:hover a {
+        color: #fff !important;
+    }
 
-.accordion .rotate {
-    transform: rotate(180deg);
-}
+    .accordion .list-group-item:hover .badge {
+        background: #fff;
+        color: #007bff;
+    }
 
-#titleChapter {
-    margin-left: 30px;
-    font-weight: bold;
-}
+    .accordion .list-group-item a {
+        color: #61656b;
+        display: block;
+    }
 
-.fi-rr-edit {
-    color: green;
-}
+    .accordion .list-group-item .badge {
+        float: right;
+        min-width: 36px;
+    }
 
-.fi-rr-trash {
-    color: red;
-}
+    .accordion .rotate {
+        transform: rotate(180deg);
+    }
 
-#btnActionEdit,
-#btnActionDelete {
-    float: right;
-}
+    #titleChapter {
+        margin-left: 30px;
+        font-weight: bold;
+    }
 
+    .fi-rr-edit {
+        color: green;
+    }
+
+    .fi-rr-trash {
+        color: red;
+    }
+
+    .card-button {
+        display: flex;
+        float: right;
+    }
+
+    .card-category.hidden {
+        display: none;
+    }
 /* ------------------------ CKEDITOR ------------------------------ */
 
 .ck-editor__editable[role="textbox"] {
     /* editing area */
     min-height: 500px;
 }
+

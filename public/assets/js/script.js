@@ -4,81 +4,144 @@
 
 // ---------------------- MODE SOMBRE -----------------------
 
+function toggleTheme() {
+    let body = document.getElementsByTagName('body')[0];
+    let contentIdeas = document.getElementById('contentIdeas');
+    let navbarbrand = document.querySelector('.navbar-brand');
+    let cardBody = document.querySelectorAll('.card-body');
+    let navlink = document.querySelectorAll('.nav-link');
+    let darkThemeClass = 'dark-theme';
+    let theme = getCookie('theme');
 
-var buttonToggle = document.getElementById('buttonToggle');
-var body = document.getElementsByTagName('body')[0];
-var dark_theme = 'dark';
-var __chapterSelectedId__ = null;
-
-buttonToggle.addEventListener('click', function () {
-
-    if (body.classList.contains(dark_theme)) {
-        body.classList.remove(dark_theme);
+    if (theme === 'dark-theme') {
+        body.classList.add(darkThemeClass);
+        applyDarkTheme();
+        $('#mode').text('Dark Mode');
+    } else {
+        applyLightTheme();
+        $('#mode').text('Light Mode');
     }
 
-    else {
-        body.classList.add(dark_theme);
+    let buttonToggle = document.getElementById('buttonToggle');
+    buttonToggle.addEventListener('click', function () {
+        if (body.classList.contains(darkThemeClass)) {
+            body.classList.remove(darkThemeClass);
+            setCookie('theme', 'light');
+            applyLightTheme();
+            $('#mode').text('Light Mode');
+        } else {
+            body.classList.add(darkThemeClass);
+            setCookie('theme', 'dark-theme');
+            applyDarkTheme();
+            $('#mode').text('Dark Mode');
+        }
+    });
+
+    // Gestion de la checkbox
+    let blackAndWhiteCheckbox = document.getElementById('blackAndWhite');
+    blackAndWhiteCheckbox.addEventListener('change', function () {
+        if (this.checked) {
+            body.classList.remove(darkThemeClass);
+            setCookie('theme', 'light');
+            applyLightTheme();
+            $('#mode').text('Light Mode');
+        } else {
+            body.classList.add(darkThemeClass);
+            setCookie('theme', 'dark-theme');
+            applyDarkTheme();
+            $('#mode').text('Dark Mode');
+        }
+    });
+
+    function applyLightTheme() {
+        contentIdeas.style.backgroundColor = "white";
+        contentIdeas.style.color = "black";
+        navbarbrand.style.color = "black";
+        navlink.forEach(function (userItem) {
+            userItem.style.color = "black";
+        });
+        cardBody.forEach(function (bodyItem) {
+            bodyItem.style.color = "black";
+            bodyItem.style.backgroundColor = "white";
+        });
     }
+
+    function applyDarkTheme() {
+        contentIdeas.style.backgroundColor = "rgb(42, 42, 42)";
+        contentIdeas.style.color = "white";
+        navbarbrand.style.color = "white";
+        navlink.forEach(function (userItem) {
+            userItem.style.color = "white";
+        });
+        cardBody.forEach(function (bodyItem) {
+            bodyItem.style.color = "white";
+            bodyItem.style.backgroundColor = "rgb(42, 42, 42)";
+        });
+    }
+}
+
+// Appel initial de la fonction lors du chargement de la page
+document.addEventListener('DOMContentLoaded', function () {
+    toggleTheme();
 });
 
+// enregistrement du thème dans le cookie
+function setCookie(name, value) {
+    let d = new Date();
+    d.setTime(d.getTime() + (365 * 24 * 60 * 60 * 1000));
+    let expires = "expires=" + d.toUTCString();
+    document.cookie = name + "=" + value + ";" + expires + ";path=/";
+}
+
+// récupération du thème à partir du cookie
+function getCookie(cname) {
+    let theme = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+
+        if (c.indexOf(theme) == 0) {
+            return c.substring(theme.length, c.length);
+        }
+    }
+
+    return "";
+}
 
 // Mise en surbrillance des personnages nommés dans le text
-
-// function searchNameForCollapse() {
-//     let textArea = document.querySelector("#contentIdeas").value.toLowerCase();
-//     let indexCaracterId = document.querySelectorAll('.nameCharacter span:first-of-type  ');
-//     console.log(indexCaracterId);
-//     // let index = [1, 2, 3, 4, 5, 6 ,7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,];
-//     for (let i = 0; i <= indexCaracterId.length; i++) {
-//         let firstName = document.querySelector("#character" + i + "FirstName");
-//         if (!firstName) {
-//             continue;
-//         }
-//         firstName = firstName.textContent.toLowerCase();
-//         if (textArea.toLowerCase().includes(firstName)) {
-//             document.querySelector("#character" + i + "FirstName").style.color = 'red';
-//         } else {
-//             document.querySelector("#character" + i + "FirstName").style.color = 'black';
-//         }
-//     }
-//     console.log("--------------------------");
-// }
-
-// document.addEventListener('keydown', function (event) {
-//     if (event.code == 'Space') {
-//         searchNameForCollapse();
-//     }
-// });
-// searchNameForCollapse();
 
 
 function searchNameForCollapse() {
     let textArea = document.querySelector("#contentIdeas").value.toLowerCase();
-    let indexCaracterId = document.querySelectorAll('.nameCharacter span:first-of-type');
-    indexCaracterId.forEach(element => {
-        console.log(element.id);
-        const indexId = (element.id).match(/\d*/g);
-        console.log(indexId);
-        let tabId = [];
-        for (let i = 0; i <= indexCharacterId.length; i++) {
-            tabId.push(indexId);
-            console.log(tabId)
-        }
-        for (let i = 0; i <= tabId.length; i++) {
-            let firstName = document.querySelector("#character" + i + "FirstName");
-            if (!firstName) {
-                continue;
-            }
-            firstName = firstName.textContent.toLowerCase();
-            if (textArea.toLowerCase().includes(firstName)) {
-                document.querySelector("#character" + i + "FirstName").style.color = 'red';
-            } else {
-                document.querySelector("#character" + i + "FirstName").style.color = 'black';
-            }
+    let indexCharacterId = document.querySelectorAll('.nameCharacter span.name');
+
+    indexCharacterId.forEach((element, index) => {
+        const indexId = element.parentElement.id.match(/\d+/);
+        let firstName = element.textContent.toLowerCase();
+
+        if (textArea.includes(firstName)) {
+            element.classList.add('highlight');
+        } else {
+            element.classList.remove('highlight');
         }
     });
-    console.log("--------------------------");
 }
+
+// Appel initial de la fonction lors du chargement de la page
+document.addEventListener('DOMContentLoaded', function () {
+    searchNameForCollapse();
+});
+
+// Appel de la fonction lors de la saisie dans le textarea
+document.querySelector("#contentIdeas").addEventListener('input', function () {
+    searchNameForCollapse();
+});
+searchNameForCollapse();
 
 
 // Affichage chapterIdeas, chapterName and indexChapter 
@@ -95,24 +158,13 @@ document.addEventListener('DOMContentLoaded', function () {
             document.querySelector('#contentIdeas').value = chapterIdeas;
             document.querySelector('#numberOfChapter').textContent = `Chapitre ${index + 1}`;
             window.__chapterSelectedId__ = this.dataset.chapterId
+            searchNameForCollapse();
         });
     });
 });
 
-// Affichage du titre de la story dans nav
 
-// document.addEventListener('DOMContentLoaded', function () {
-//     console.log(stories);
-//     let storiesObject = JSON.parse(stories.replace(/&quot;/g, '"'));
-//     console.log(storiesObject);
-//     const dropdownStory = document.querySelectorAll('.dropdown-item.story');
-//     console.log(dropdownStory);
-//     dropdownStory.forEach(function (item) {
-//         console.log(item.dataset.story);
-//     });
-// });
-
-// Message flash timeout 5 secondes
+// MESSAGE FLASH TIMEOUT 5 SECONDES
 
 document.querySelector('#navbarFlash').textContent != "";
 setTimeout(function () {
@@ -121,75 +173,7 @@ setTimeout(function () {
 
 
 // Récupère l'élément select du dropdown
-var selectDropdown = document.getElementById('storizzz');
-
-// Ajoute un événement change
-// selectDropdown.addEventListener('change', function () {
-//     // Récupère l'ID de l'histoire sélectionnée
-//     var storyId = this.value;
-
-//     // Effectue une requête AJAX pour récupérer les données de l'histoire
-//     var xhr = new XMLHttpRequest();
-//     xhr.open('GET', '/story/' + storyId, true);
-//     xhr.onload = function () {
-//         if (xhr.status === 200) {
-//             // Succès de la requête AJAX, les données sont disponibles dans xhr.responseText
-//             var storyData = JSON.parse(xhr.responseText);
-
-//             // Affiche les parties de l'histoire dans la page
-//             displayStoryParts(storyData);
-//         }
-//     };
-//     xhr.send();
-// });
-
-function displayStoryParts(storyData) {
-    // Récupère les éléments HTML où tu veux afficher les parties de l'histoire
-    var chapterContainer = document.getElementById('contentIdeasgit status');
-    var categoryContainer = document.getElementById('category-container');
-    var characterContainer = document.getElementById('character-container');
-
-    // Efface le contenu précédent des conteneurs
-    chapterContainer.innerHTML = '';
-    categoryContainer.innerHTML = '';
-    characterContainer.innerHTML = '';
-
-    // Parcours les parties de l'histoire et les affiche dans les conteneurs respectifs
-    storyData.chapters.forEach(function (chapter) {
-        chapterContainer.innerHTML += '<p>' + chapter.title + '</p>';
-    });
-
-    storyData.categories.forEach(function (category) {
-        categoryContainer.innerHTML += '<p>' + category.name + '</p>';
-    });
-
-    storyData.characters.forEach(function (character) {
-        characterContainer.innerHTML += '<p>' + character.name + '</p>';
-    });
-
-    // Récupère le premier chapitre de la liste
-    var firstChapter = storyData.chapters[0];
-
-    // Récupère le contenu des idées du premier chapitre
-    var firstChapterIdeas = firstChapter.ideas;
-
-    // Affiche le contenu des idées dans le conteneur approprié
-    var contentIdeasContainer = document.getElementById('contentIdeas');
-    contentIdeasContainer.innerHTML = '<p>' + firstChapterIdeas + '</p>';
-
-    // Récupère les noms de tous les chapitres
-    var chapterNames = storyData.chapters.map(function (chapter) {
-        return chapter.title;
-    });
-
-    // Affiche les noms des chapitres dans le dropdown "dropdownChapter"
-    var dropdownChapter = document.getElementById('dropdownChapter');
-    dropdownChapter.innerHTML = '';
-
-    chapterNames.forEach(function (chapterName) {
-        dropdownChapter.innerHTML += '<option>' + chapterName + '</option>';
-    });
-}
+let selectDropdown = document.getElementById('storizzz');
 
 function getStoryData(storyUrl) {
     console.log('pouet');
@@ -202,9 +186,9 @@ function getStoryData(storyUrl) {
     });
 }
 
-function filterCategory(categoryName) {
-    console.log(categoryName);
-}
+// ---------------- CHARGEMENTS -------------------------
+
+let __chapterSelectedId__ = null;
 
 function loadInitialChapter(titre, content) {
     document.querySelector('#chapitreEnCours').textContent = titre;
@@ -223,3 +207,139 @@ function updateChapter(url) {
         $('.alert').alert('update !!')
     });
 }
+
+
+
+
+// -------------- SELECTION DES PERSONNAGES PAR CATEGORY --------------------------------
+
+
+function filterCharactersByCategory(category) {
+    let characterCards = document.getElementsByClassName('card-category');
+    let selectedCategory = sessionStorage.getItem('selectedCategory'); // Récupérer la catégorie sélectionnée depuis sessionStorage
+
+    if (!selectedCategory) {
+        selectedCategory = 'Tous'; // Si aucune catégorie n'est sélectionnée, afficher tous les personnages
+    }
+
+    // Mettre à jour la valeur du dropdown avec la catégorie sélectionnée
+    let dropdownButton = document.getElementById('dropdownMenuButton');
+    dropdownButton.textContent = selectedCategory;
+
+    if (category === 'Tous') {
+        // Afficher tous les personnages en supprimant la classe 'hidden' de toutes les cartes
+        for (let i = 0; i < characterCards.length; i++) {
+            characterCards[i].classList.remove('hidden');
+        }
+    } else {
+        // Parcourir toutes les cartes de personnages et masquer celles qui n'appartiennent pas à la catégorie sélectionnée
+        for (let i = 0; i < characterCards.length; i++) {
+            let characterCategory = characterCards[i].getAttribute('data-category');
+
+            if (characterCategory !== category) {
+                characterCards[i].classList.add('hidden');
+            } else {
+                characterCards[i].classList.remove('hidden');
+            }
+        }
+    }
+}
+
+// Fonction pour enregistrer la catégorie sélectionnée dans sessionStorage
+function saveSelectedCategory(category) {
+    sessionStorage.setItem('selectedCategory', category);
+}
+
+// Fonction pour charger la catégorie sélectionnée lors du rechargement de la page
+function loadSelectedCategory() {
+    let selectedCategory = sessionStorage.getItem('selectedCategory');
+    if (selectedCategory) {
+        filterCharactersByCategory(selectedCategory);
+    } else {
+        filterCharactersByCategory('Tous'); // Afficher toutes les cartes si aucune catégorie sélectionnée
+    }
+}
+
+// Appeler la fonction loadSelectedCategory au chargement de la page
+window.onload = loadSelectedCategory;
+
+
+// function filterCharactersByCategory(category) {
+//     let characterCards = document.getElementsByClassName('card-category');
+
+//     if (category === 'Tous') {
+//         // Afficher tous les personnages en supprimant la classe 'hidden' de toutes les cartes
+//         for (let i = 0; i < characterCards.length; i++) {
+//             characterCards[i].classList.remove('hidden');
+//         }
+//     } else {
+//         // Parcourir toutes les cartes de personnages et masquer celles qui n'appartiennent pas à la catégorie sélectionnée
+//         for (let i = 0; i < characterCards.length; i++) {
+//             let characterCategory = characterCards[i].getAttribute('data-category');
+
+//             if (characterCategory !== category) {
+//                 characterCards[i].classList.add('hidden');
+//             } else {
+//                 characterCards[i].classList.remove('hidden');
+//             }
+//         }
+//     }
+// }
+
+// Récupérer la catégorie sélectionnée depuis le stockage local
+// const selectedCategory = localStorage.getItem('selectedCategory');
+
+// // Appliquer le filtre avec la catégorie précédemment sélectionnée ou 'Tous' par défaut
+// filterCharactersByCategory(selectedCategory || 'Tous');
+
+
+
+// function filterCharactersByCategory(category) {
+//     let characterCards = document.getElementsByClassName('card-category');
+
+//     if (category === 'Tous') {
+//         // Afficher tous les personnages en supprimant la classe 'hidden' de toutes les cartes
+//         for (let i = 0; i < characterCards.length; i++) {
+//             characterCards[i].classList.remove('hidden');
+//         }
+//     } else {
+//         // Parcourir toutes les cartes de personnages et masquer celles qui n'appartiennent pas à la catégorie sélectionnée
+//         for (let i = 0; i < characterCards.length; i++) {
+//             let characterCategory = characterCards[i].getAttribute('data-category');
+
+//             if (characterCategory !== category) {
+//                 characterCards[i].classList.add('hidden');
+//             } else {
+//                 characterCards[i].classList.remove('hidden');
+//             }
+//         }
+//     }
+// }
+
+// // Récupérer la catégorie sélectionnée depuis le stockage local
+// const selectedCategory = localStorage.getItem('selectedCategory');
+
+// // Appliquer le filtre avec la catégorie précédemment sélectionnée ou 'Tous' par défaut
+// filterCharactersByCategory(selectedCategory || 'Tous');
+
+// function filterCharactersByCategory(category) {
+//     let characterCards = document.getElementsByClassName('card-category');
+
+//     if (category === 'Tous') {
+//         // Afficher tous les personnages en supprimant la classe 'hidden'
+//         for (let i = 0; i < characterCards.length; i++) {
+//             characterCards[i].classList.remove('hidden');
+//         }
+//     } else {
+//         // Parcourir toutes les cartes de personnages et masquer celles qui n'appartiennent pas à la catégorie sélectionnée
+//         for (let i = 0; i < characterCards.length; i++) {
+//             let characterCategory = characterCards[i].getAttribute('data-category');
+
+//             if (characterCategory !== category) {
+//                 characterCards[i].classList.add('hidden');
+//             } else {
+//                 characterCards[i].classList.remove('hidden');
+//             }
+//         }
+//     }
+// }

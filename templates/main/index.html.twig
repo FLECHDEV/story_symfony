@@ -10,6 +10,7 @@
 	<nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
 		<div class="container px-5 px-lg-5">
 			<a class="navbar-brand" title="Storiz">STORIZ</a>
+			<p class="text-end text-secondary fw-bold" id="selectedStory">{{selectedStory.name}}</p>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" alt="Menu">
 				Menu
 				<i class="fas fa-bars"></i>
@@ -19,8 +20,13 @@
 					{% if app.user %}
 						<span class="navbar-text" id="navbarFlash">{% include "partials/_flash.html.twig" %}</span>
 						<li class="nav-item">
-							<a class="nav-link px-lg-3 py-3 py-lg-4" href="{{path('app_logout')}}" alt="Déconnexion">Deconnexion</a>
+							<a class="nav-link px-lg-3 py-3 py-lg-4" id="btnlogout" href="{{path('app_logout')}}" alt="Déconnexion" data-no-routing>Deconnexion</a>
 						</li>
+						{% if is_granted('ROLE_ADMIN') %}
+						<li>
+							<a class="nav-link px-lg-3 py-3 py-lg-4" href="{{path ('user_index') }}" title="utilisateurs">Admin</a>
+						</li>
+						{% endif %}
 						<div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
 							<ul class="navbar-nav" id="ulStory">
 								<li class="nav-item dropdown">
@@ -56,15 +62,13 @@
 						</li>
 					{% endif %}
 					<li class="nav-item" id="buttonToggle">
-						<input type="checkbox" checked data-toggle="toggle" data-onstyle="outline-secondary" data-offstyle="outline-light" data-size="xs" id="blackAndWhite">
+						<input type="checkbox" data-toggle="toggle" checked data-onlabel="Jour"  data-offlabel="Nuit" data-onstyle="outline-secondary" data-offstyle="outline-light" data-size="xs" id="blackAndWhite">
 					</li>
 
 				</ul>
 			</div>
 		</div>
 	</nav>
-	<h2 id="selectedStory" data-id>{{selectedStory.name}}</h2>
-
 
 	<!-- ------------------------Modal Connexion--------------------- -->
 
@@ -166,90 +170,39 @@
 
 	<!-- ------------------------Modal setting Story--------------------- -->
 
-	<div class="modal fade modal-lg" id="modalSettingStory" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title text-center" id="staticBackdropLabel">Vos storyzzz</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalNewStory">Nouvelle Story</button>
-				<div class="modal-body ">
-
-					<div class="table-responsive">
-						<table class="table">
-							<thead>
-								<tr>
-									<th></th>
-								</tr>
-							</thead>
-							<tbody>
-
-								{% for story in stories %}
-									<tr {{story.id}}>
-										<td class="text-center"></td>
-										<td>
-											{{ story.name }}</td>
-										<td class="td-actions text-right">
-											<form method="post" action="{{path('app_story_delete', {'id': story.id})}}" onsubmit="return confirm('Supprimer la Story : {{ story.name }} ?');">
-												<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ story.id) }}">
-												<button type="submit" class="btn" id="btnActionDeleteStory">
-													<i class="fi fi-rr-trash"></i>
-												</button>
-												<a href="{{path('app_story_edit', {'id': story.id} )}}">
-													<button type="button" class="btn" id="btnActionEditStory">
-														<i class="fi fi-rr-edit"></i>
-													</button>
-												</a>
-											</form>
-
-										</td>
-									</tr>
-								{% else %}
-									<tr>
-										<td class="text-center"></td>
-										<td>Aucune storiz</td>
-									</tr>
-								{% endfor %}
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+	{% include "main/modal_setting_story.html.twig" %}
 
 	<!-- ------------------------Modal New Story--------------------- -->
 	{% include "main/new_story.html.twig" %}
 
 
-	{# <!-- ------------------------Modal update Story--------------------- -->
-																																																																														
-																																																																															<div class="modal fade" id="modalUpdateStory" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-																																																																																<div class="modal-dialog">
-																																																																																	<div class="modal-content">
-																																																																																		<div class="modal-header">
-																																																																																			<h5 class="modal-title" id="staticBackdropLabel">Renommer Story</h5>
-																																																																																			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-																																																																																		</div>
-																																																																																		<div class="modal-body ">
-																																																																																			<form method="post" action="{{ path('app_story_edit', {'id': story.id}) }}" onsubmit="return confirm('Mettre à jour la Story : {{ story.name }} ?');" id="modalEditStory">
-																																																																																				<input type="hidden" name="_token" value="{{ csrf_token('update' ~ story.id) }}">
-																																																																																				<div class="mb-3">
-																																																																																					<label for="nextStory" class="form-label">Titre actuel</label>
-																																																																																					<input type="text" readonly value="{{ story.name }}" name="nextStory" class="form-control" id="currentStory" data-story-id="{{ story.id }}">
-																																																																														
-																																																																																				</div>
-																																																																																				<div class="mb-3">
-																																																																																					<label for="updateStory" class="form-label">Nouveau titre</label>
-																																																																																					<input type="text" name="updateStory" class="form-control" id="updateStory">
-																																																																																				</div>
-																																																																																				<buttonValider type="submit" class="btn btn-outline-success justify-content-center" href="#">Actualiser</button>
-																																																																																			</form>
-																																																																																		</div>
-																																																																																	</div>
-																																																																																</div>
-																																																																															</div>  #}
+	<!-- ------------------------Modal update Story--------------------- -->
+																																																																																					
+							{# <div class="modal fade" id="modalUpdateStory" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="staticBackdropLabel">Renommer Story</h5>
+											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+										</div>
+										<div class="modal-body ">
+											<form method="post" action="{{ path('app_story_edit', {'id': story.id}) }}" onsubmit="return confirm('Mettre à jour la Story : {{ story.name }} ?');" id="modalEditStory">
+												<input type="hidden" name="_token" value="{{ csrf_token('update' ~ story.id) }}">
+												<div class="mb-3">
+													<label for="nextStory" class="form-label">Titre actuel</label>
+													<input type="text" readonly value="{{ story.name }}" name="nextStory" class="form-control" id="currentStory" data-story-id="{{ story.id }}">
+						
+												</div>
+												<div class="mb-3">
+													<label for="updateStory" class="form-label">Nouveau titre</label>
+													<input type="text" name="updateStory" class="form-control" id="updateStory">
+												</div>
+												<buttonValider type="submit" class="btn btn-outline-success justify-content-center" href="#">Actualiser</button>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>   #}
 
 
 	<!-- ------------------------Modal setting Category--------------------- -->
@@ -490,7 +443,8 @@
 
 	<!-- -------------------------Container dropdown storiz--------------------- -->
 
-	<div class="container-lg mt-3">
+
+	<div class="container-lg mt-1">
 		<div class="row">
 			<div class="col-lg-5">
 				<div class="dropdown">
@@ -499,11 +453,16 @@
 					</button>
 					<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton">
 						<li>
-							<a class="dropdown-item">Tous</a>
-							{% for category in selectedStory.categories %}
-								<span onclick="filterCategory('{{category.name}}')" %>{{ category.name}}</span>
-							{% endfor %}
+							<a class="dropdown-item story" id="allOption" onclick="filterCharactersByCategory('Tous')">Tous</a>
 						</li>
+						{% for category in selectedStory.categories %}
+							<li>
+								<a class="dropdown-item story" onclick="filterCharactersByCategory('{{ category.name }}')"> {{ category.name }}</a>
+							</li>
+						{# </a>
+							<a class="dropdown-item story" onclick="filterCategory('{{category.name}}')">{{ category.name}}</a>
+						</li> #}
+						{% endfor %}
 					</ul>
 					<button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modalSettingCategory">
 						<i class="fi fi-rr-settings"></i>
@@ -534,9 +493,9 @@
 						<i class="fi fi-rr-settings"></i>
 					</button>
 					<button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalNewChapter">Nouveau chapitre</button>
-					<span id="numberOfChapter" style="margin-left: 20px; "></span>
+					<span class="text-secondary fw-bold" id="numberOfChapter" style="margin-left: 20px; "></span>
 					:
-					<label style="font-weight: bold; text-transform : uppercase;" id="chapitreEnCours"></label>
+					<label class="text-secondary fw-bold" id="chapitreEnCours"></label>
 				</div>
 			</div>
 		</div>
@@ -546,40 +505,45 @@
 
 	<!-- ------------------------- creation Characters --------------------- -->
 
-
 	<div class="container-lg mt-3">
 		<div class="row">
 			<div class="col-lg-5">
-				{% if app.user %}
-					{% for character in selectedStory.characters %}
-						<div class="accordion mb-2" id="accordionCharacters">
-							<div class="card">
+				<div class="accordion mb-2" id="accordionExample">
+					{% if app.user %}
+						{% for character in selectedStory.characters %}
+							<div class="card card-category hidden" data-category="{{ character.category.name }}">
 								<div class="card-header" id="heading{{character.id}}">
 									<h2 class="mb-0">
-										<a class="characterId" data-toggle="collapse" data-target="#collapse{{character.id}}" aria-expanded="false" aria-controls="collapse{{character.id}}">
+										{# <a class="characterId" data-toggle="collapse" data-target="#collapse{{character.id}}" aria-expanded="false" aria-controls="collapse{{character.id}}"> #}
+										<a class="characterId" data-category="{{ character.category }}" data-toggle="collapse" data-target="#collapse{{character.id}}" aria-expanded="false" aria-controls="collapse{{character.id}}">
 											<p class="nameCharacter" id="nameCharacter{{character.id}}">
 												<i class="fa fa-user"></i>
-												<span id='character{{character.id}}FirstName'>{{character.firstname}}</span>
+												<span id='character{{character.id}}FirstName' class="name">{{character.firstname}}</span>
 												<span id='character{{character.id}}LastName'>{{character.lastname}}</span>
 											</p>
 											<i class="fa fa-chevron-down toggle"></i>
 										</a>
 									</h2>
 								</div>
-								<div id="collapse{{character.id}}" class="collapse show" aria-labelledby="heading{{character.id}}" data-parent="#accordionCharacters">
+								<div id="collapse{{character.id}}" class="collapse" aria-labelledby="heading{{character.id}}" data-parent="#accordionExample">
 									<div class="card-body">
-										<form method="post" action="{{path('app_character_delete', {'id': character.id})}}" onsubmit="return confirm('Supprimer le personnage : {{character.firstname}} {{character.lastname}} ?');">
-											<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ character.id) }}">
-											<button type="submit" type="button" class="btn">
-												<i class="fi fi-rr-trash"></i>
-											</button>
-										</form>
-
-										<a href="{{path('app_character_edit', {'id': character.id})}}" type="button" class="btn">
-											<i class="fi fi-rr-edit"></i>
-										</a>
+										<div class="card-button">
+											<form class="formCardCharacter" method="post" action="{{path('app_character_delete', {'id': character.id})}}" onsubmit="return confirm('Supprimer le personnage : {{character.firstname}} {{character.lastname}} ?');">
+												<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ character.id) }}">
+												<button type="submit" type="button" class="btn" title="Supprimer">
+													<i class="fi fi-rr-trash"></i>
+												</button>
+											</form>
+											<form class="formCardCharacter" method="post" action="{{path('app_character_edit', {'id': character.id})}}">
+												<input type="hidden" name="_token" value="{{ csrf_token('edit' ~ character.id) }}">
+												<button type="submit" type="button" class="btn" title="Modifier">
+													<i class="fi fi-rr-edit"></i>
+												</button>
+											</form>
+										</div>
 										<p class="text-justify">Profession :
-											{{character.job}}</p>
+											{{character.job}}
+										</p>
 										<p class="text-justify">Age :
 											{{character.age}}
 										</p>
@@ -587,32 +551,31 @@
 											{{character.city}}
 										</p>
 										<p class="text-justify">Surnom :
-											{{character.nickname}}</p>
+											{{character.nickname}}
+										</p>
 										<p class="text-justify">Éthnie :
-											{{character.ethnic}}</p>
+											{{character.ethnic}}
+										</p>
 										<p>
 											<i class="fi fi-sr-users-alt"></i>Liens :
-											{{character.link}}</p>
+											{{character.link}}
+										</p>
 										<p class="text-justify">Infos :
 											{{character.information}}
 										</p>
 									</div>
 								</div>
 							</div>
-						</div>
-					{% endfor %}
-					{% else %}
-
-				{% endif %}
+						{% endfor %}
+						{% else %}
+					{% endif %}
+				</div>
 			</div>
-
-			<!-- ------------------------- creation Chapters --------------------- -->
 			<div class="col">
-				<div
-					class="form-group shadow-textarea" id="editor">
-					{# <textarea class="form-control z-depth-1" id="contentEditor" rows="3" placeholder="Vos idées pour ce chapitre..."></textarea> #}
-					<textarea class="form-control z-depth-1" id="contentIdeas" rows="3" placeholder="Vos idées pour ce chapitre..." style="height: 35rem; resize: none; white-space: pre-line;"></textarea>
-					<button class="btn btn-primary" onclick="updateChapter('{{absolute_url(path('app_api_updatechaptercontent', {id:'fragmentToReplace'}))}}')">sauvegarder</button>
+				<div class="form-group shadow-textarea">
+					{# <textarea class="form-control z-depth-1" id="contentEditor" name="textarea" rows="3" placeholder="Vos idées pour ce chapitre..." style="height: 35rem; resize: none; white-space: pre-line;"></textarea> #}
+					<textarea class="form-control z-depth-1" id="contentIdeas" name="textarea" rows="3" placeholder="Vos idées pour ce chapitre..." style="height: 35rem; resize: none; white-space: pre-line;"></textarea>
+					<button class="btn btn-outline-success btn-default btn-block" onclick="updateChapter('{{absolute_url(path('app_api_updatechaptercontent', {id:'fragmentToReplace'}))}}')">Sauvegarder vos idées</button>
 				</div>
 			</div>
 		</div>
@@ -621,12 +584,10 @@
 	{% if selectedStory.chapters is not empty %}
 		<script>
 			document.querySelector('#chapitreEnCours').textContent = '{{ selectedStory.chapters[0].name }}';
-document.querySelector('#contentIdeas').value = '{{ selectedStory.chapters[0].ideas }}';
-document.querySelector('#numberOfChapter').textContent = `Chapitre 1`;
-window.__chapterSelectedId__ = {{ selectedStory.chapters[0].id }};
-console.log(window.__chapterSelectedId__);
+			document.querySelector('#contentIdeas').value = '{{ selectedStory.chapters[0].ideas }}';
+			document.querySelector('#numberOfChapter').textContent = `Chapitre 1`;
+			window.__chapterSelectedId__ = {{ selectedStory.chapters[0].id }};
+			console.log(window.__chapterSelectedId__);
 		</script>
 	{% endif %}
-
-
 {% endblock %}

@@ -1,0 +1,54 @@
+	<!-- ------------------------Modal setting Story--------------------- -->
+
+	<div class="modal fade modal-lg" id="modalSettingStory" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title text-center" id="staticBackdropLabel">Vos storyzzz</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalNewStory">Nouvelle Story</button>
+				<div class="modal-body ">
+
+					<div class="table-responsive">
+						<table class="table">
+							<thead>
+								<tr>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+
+								{% for story in stories %}
+									<tr {{story.id}}>
+										<td class="text-center"></td>
+										<td>
+											{{ story.name }}</td>
+										<td class="td-actions text-right">
+											<form method="post" action="{{path('app_story_delete', {'id': story.id})}}" onsubmit="return confirm('Supprimer la Story : {{ story.name }} ?');">
+												<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ story.id) }}">
+												<button type="submit" class="btn" id="btnActionDeleteStory">
+													<i class="fi fi-rr-trash"></i>
+												</button>
+												<a href="{{path('app_story_edit', {'id': story.id} )}}">
+													<button type="button" class="btn" id="btnActionEditStory">
+														<i class="fi fi-rr-edit"></i>
+													</button>
+												</a>
+											</form>
+
+										</td>
+									</tr>
+								{% else %}
+									<tr>
+										<td class="text-center"></td>
+										<td>Aucune storiz</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>

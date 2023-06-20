@@ -1,4 +1,5 @@
-// // Initialisation de CKeditor
+// Initialisation de CKeditor
+
 // ClassicEditor
 //     .create(document.querySelector('#contentEditor'), {
 
@@ -56,3 +57,5 @@
 // const config = {
 // 	blockToolbar: [ 'paragraph', 'heading1', 'heading2', '|', 'bulletedList', 'numberedList' ]
 // 
+
+

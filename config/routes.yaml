@@ -3,3 +3,8 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+user_index:
+    path: /users
+    controller: App\Controller\UserController::index
+    methods: GET
