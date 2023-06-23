@@ -10,7 +10,9 @@
 	<nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
 		<div class="container px-5 px-lg-5">
 			<a class="navbar-brand" title="Storiz">STORIZ</a>
-			<p class="text-end text-secondary fw-bold" id="selectedStory">{{selectedStory.name}}</p>
+			{% if selectedStory %}
+				<p class="text-end text-secondary fw-bold" id="selectedStory">{{selectedStory.name}}</p>
+			{% endif %}
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" alt="Menu">
 				Menu
 				<i class="fas fa-bars"></i>
@@ -23,9 +25,9 @@
 							<a class="nav-link px-lg-3 py-3 py-lg-4" id="btnlogout" href="{{path('app_logout')}}" alt="Déconnexion" data-no-routing>Deconnexion</a>
 						</li>
 						{% if is_granted('ROLE_ADMIN') %}
-						<li>
-							<a class="nav-link px-lg-3 py-3 py-lg-4" href="{{path ('user_index') }}" title="utilisateurs">Admin</a>
-						</li>
+							<li>
+								<a class="nav-link px-lg-3 py-3 py-lg-4" href="{{path ('user_index') }}" title="utilisateurs">Admin</a>
+							</li>
 						{% endif %}
 						<div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
 							<ul class="navbar-nav" id="ulStory">
@@ -61,7 +63,7 @@
 						</li>
 					{% endif %}
 					<li class="nav-item" id="buttonToggle">
-						<input type="checkbox" data-toggle="toggle" checked data-onlabel="Jour"  data-offlabel="Nuit" data-onstyle="outline-secondary" data-offstyle="outline-light" data-size="xs" id="blackAndWhite">
+						<input type="checkbox" data-toggle="toggle" checked data-onlabel="Jour" data-offlabel="Nuit" data-onstyle="outline-secondary" data-offstyle="outline-light" data-size="xs" id="blackAndWhite">
 					</li>
 
 				</ul>
@@ -157,7 +159,6 @@
 					{{ form_row(registrationForm.plainPassword, {
             label: 'Password'
         }) }}
-					{{ form_row(registrationForm.agreeTerms) }}
 
 					<button type="submit" class="btn">Register</button>
 					{{ form_end(registrationForm) }}
@@ -176,32 +177,32 @@
 
 
 	<!-- ------------------------Modal update Story--------------------- -->
-																																																																																					
-							{# <div class="modal fade" id="modalUpdateStory" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-								<div class="modal-dialog">
-									<div class="modal-content">
-										<div class="modal-header">
-											<h5 class="modal-title" id="staticBackdropLabel">Renommer Story</h5>
-											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-										</div>
-										<div class="modal-body ">
-											<form method="post" action="{{ path('app_story_edit', {'id': story.id}) }}" onsubmit="return confirm('Mettre à jour la Story : {{ story.name }} ?');" id="modalEditStory">
-												<input type="hidden" name="_token" value="{{ csrf_token('update' ~ story.id) }}">
-												<div class="mb-3">
-													<label for="nextStory" class="form-label">Titre actuel</label>
-													<input type="text" readonly value="{{ story.name }}" name="nextStory" class="form-control" id="currentStory" data-story-id="{{ story.id }}">
-						
-												</div>
-												<div class="mb-3">
-													<label for="updateStory" class="form-label">Nouveau titre</label>
-													<input type="text" name="updateStory" class="form-control" id="updateStory">
-												</div>
-												<buttonValider type="submit" class="btn btn-outline-success justify-content-center" href="#">Actualiser</button>
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>   #}
+
+	{# <div class="modal fade" id="modalUpdateStory" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+																									<div class="modal-dialog">
+																										<div class="modal-content">
+																											<div class="modal-header">
+																												<h5 class="modal-title" id="staticBackdropLabel">Renommer Story</h5>
+																												<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+																											</div>
+																											<div class="modal-body ">
+																												<form method="post" action="{{ path('app_story_edit', {'id': story.id}) }}" onsubmit="return confirm('Mettre à jour la Story : {{ story.name }} ?');" id="modalEditStory">
+																													<input type="hidden" name="_token" value="{{ csrf_token('update' ~ story.id) }}">
+																													<div class="mb-3">
+																														<label for="nextStory" class="form-label">Titre actuel</label>
+																														<input type="text" readonly value="{{ story.name }}" name="nextStory" class="form-control" id="currentStory" data-story-id="{{ story.id }}">
+																							
+																													</div>
+																													<div class="mb-3">
+																														<label for="updateStory" class="form-label">Nouveau titre</label>
+																														<input type="text" name="updateStory" class="form-control" id="updateStory">
+																													</div>
+																													<buttonValider type="submit" class="btn btn-outline-success justify-content-center" href="#">Actualiser</button>
+																												</form>
+																											</div>
+																										</div>
+																									</div>
+																								</div>   #}
 
 
 	<!-- ------------------------Modal setting Category--------------------- -->
@@ -381,209 +382,209 @@
 								</tr>
 							</thead>
 							<tbody>
-								{% for chapter in selectedStory.chapters %}
-									<tr {{chapter.id}}>
-										<td class="text-center"></td>
-										<td>{{ chapter.Name }}</td>
-										<td class="td-actions text-right">
-											<form method="post" action="{{path('app_chapter_delete', {'id': chapter.id})}}" onsubmit="return confirm('Supprimer le chapitre : {{ chapter.name }} ?');">
-												<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ chapter.id) }}">
-												<button type="submit" class="btn" id="btnActionDeleteChapter" data-bs-toggle="modal">
-													<i class="fi fi-rr-trash"></i>
-												</button>
-												<button type="button" class="btn" id="btnActionEditChapter" data-bs-toggle="modal" data-bs-target="#modalUpdateChapter" data-whatever="{{ chapter.id }}" data-story-id="{{ chapter.id }}">
-													<i class="fi fi-rr-edit"></i>
-												</button>
-											</form>
-										</td>
-									</tr>
+								{% if selectedStory %}
+									{% for chapter in selectedStory.chapters %}
+										<tr {{chapter.id}}>
+											<td class="text-center"></td>
+											<td>{{ chapter.Name }}</td>
+											<td class="td-actions text-right">
+												<form method="post" action="{{path('app_chapter_delete', {'id': chapter.id})}}" onsubmit="return confirm('Supprimer le chapitre : {{ chapter.name }} ?');">
+													<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ chapter.id) }}">
+													<button type="submit" class="btn" id="btnActionDeleteChapter" data-bs-toggle="modal">
+														<i class="fi fi-rr-trash"></i>
+													</button>
+													<button type="button" class="btn" id="btnActionEditChapter" data-bs-toggle="modal" data-bs-target="#modalUpdateChapter" data-whatever="{{ chapter.id }}" data-story-id="{{ chapter.id }}">
+														<i class="fi fi-rr-edit"></i>
+													</button>
+												</form>
+											</td>
+										</tr>
+									{% endfor %}
 								{% else %}
 									<tr>
 										<td class="text-center"></td>
 										<td>Aucun chapitre</td>
 									</tr>
-								{% endfor %}
+								{% endif %}
 							</tbody>
-						</table>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- ------------------------Modal update Chapitre--------------------- -->
+
+<div class="modal fade" id="modalUpdateChapter" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="staticBackdropLabel">Renommer chapitre</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body ">
+				<form action="" method="post" id="formEditChapter">
+					<div class="mb-3">
+						<label for="nextChapter" class="form-label">Titre actuel</label>
+						<input type="text" name="currentChapter" class="form-control" id="currentChapter">
 					</div>
-				</div>
+					<div class="mb-3">
+						<label for="updateChapter" class="form-label">Nouveau titre</label>
+						<input type="text" name="updateChapter" class="form-control" id="updateChapter">
+					</div>
+					<buttonValider type="submit" class="btn btn-outline-success justify-content-center" href="#">Actualiser</button>
+				</form>
 			</div>
 		</div>
 	</div>
-
-	<!-- ------------------------Modal update Chapitre--------------------- -->
-
-	<div class="modal fade" id="modalUpdateChapter" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="staticBackdropLabel">Renommer chapitre</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body ">
-					<form action="" method="post" id="formEditChapter">
-						<div class="mb-3">
-							<label for="nextChapter" class="form-label">Titre actuel</label>
-							<input type="text" name="currentChapter" class="form-control" id="currentChapter">
-						</div>
-						<div class="mb-3">
-							<label for="updateChapter" class="form-label">Nouveau titre</label>
-							<input type="text" name="updateChapter" class="form-control" id="updateChapter">
-						</div>
-						<buttonValider type="submit" class="btn btn-outline-success justify-content-center" href="#">Actualiser</button>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
+</div>
 
 
-	<!-- ----------------------------------------------Container storiz---------------------------------------------------- -->
+<!-- ----------------------------------------------Container storiz---------------------------------------------------- -->
 
-	<!-- -------------------------Container dropdown storiz--------------------- -->
+<!-- -------------------------Container dropdown storiz--------------------- -->
 
 
-	<div class="container-lg mt-1">
-		<div class="row">
-			<div class="col-lg-5">
-				<div class="dropdown">
-					<button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						Catégorie
-					</button>
-					<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton">
-						<li>
-							<a class="dropdown-item story" id="allOption" onclick="filterCharactersByCategory('Tous')">Tous</a>
-						</li>
+<div class="container-lg mt-1">
+	<div class="row">
+		<div class="col-lg-5">
+			<div class="dropdown">
+				<button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Catégorie
+				</button>
+				<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton">
+					<li>
+						<a class="dropdown-item story" id="allOption" onclick="filterCharactersByCategory('Tous')">Tous</a>
+					</li>
+					{% if selectedStory %}
 						{% for category in selectedStory.categories %}
 							<li>
-								<a class="dropdown-item story" onclick="filterCharactersByCategory('{{ category.name }}')"> {{ category.name }}</a>
+								<a class="dropdown-item story" onclick="filterCharactersByCategory('{{ category.name }}')">
+									{{ category.name }}</a>
 							</li>
 						{% endfor %}
-					</ul>
-					<button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modalSettingCategory">
-						<i class="fi fi-rr-settings"></i>
-					</button>
-					<button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalNewCharacter">Nouveau personnage</button>
-				</div>
+					{% endif %}
+				</ul>
+				<button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modalSettingCategory">
+					<i class="fi fi-rr-settings"></i>
+				</button>
+				<button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalNewCharacter">Nouveau personnage</button>
 			</div>
-			<div class="col">
-				<div class="dropdown">
-					<button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						Chapitre
-					</button>
+		</div>
+		<div class="col">
+			<div class="dropdown">
+				<button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Chapitre
+				</button>
 
-					<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink" id="ulChapter">
-						{% if app.user %}
-							{% for chapter in selectedStory.chapters %}
-								<li class="chapterInfos">
-									<a class="dropdown-item" id="dropdownChapter" data-chapter-name="{{ chapter.name }}" data-chapter-ideas="{{ chapter.ideas }}" data-chapter-id="{{chapter.id}}">{{ chapter.name }}</a>
-								</li>
-							{% endfor %}
-						{% else %}
-							<li>
-								<a class="dropdown-item">Aucun chapitre</a>
+				<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink" id="ulChapter">
+					{% if selectedStory %}
+						{% for chapter in selectedStory.chapters %}
+							<li class="chapterInfos">
+								<a class="dropdown-item" id="dropdownChapter" data-chapter-name="{{ chapter.name }}" data-chapter-ideas="{{ chapter.ideas }}" data-chapter-id="{{chapter.id}}">{{ chapter.name }}</a>
 							</li>
-						{% endif %}
-					</ul>
-					<button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modalSettingChapter">
-						<i class="fi fi-rr-settings"></i>
-					</button>
-					<button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalNewChapter">Nouveau chapitre</button>
-					<span class="text-secondary fw-bold" id="numberOfChapter" style="margin-left: 20px; "></span>
-					:
-					<label class="text-secondary fw-bold" id="chapitreEnCours"></label>
-				</div>
+						{% endfor %}
+					{% else %}
+						<li>
+							<a class="dropdown-item">Aucun chapitre</a>
+						</li>
+					{% endif %}
+				</ul>
+				<button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modalSettingChapter">
+					<i class="fi fi-rr-settings"></i>
+				</button>
+				<button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalNewChapter">Nouveau chapitre</button>
+				<span class="text-secondary fw-bold" id="numberOfChapter" style="margin-left: 20px; "></span>
+				:
+				<label class="text-secondary fw-bold" id="chapitreEnCours"></label>
 			</div>
 		</div>
 	</div>
-
-	<!-- -------------------------Container creation Characters & Chapters--------------------- -->
-
-	<!-- ------------------------- creation Characters --------------------- -->
-
-	<div class="container-lg mt-3">
-		<div class="row">
-			<div class="col-lg-5">
-				<div class="accordion mb-2" id="accordionExample">
-					{% if app.user %}
-						{% for character in selectedStory.characters %}
-							<div class="card card-category hidden" data-category="{{ character.category.name }}">
-								<div class="card-header" id="heading{{character.id}}">
-									<h2 class="mb-0">
-										{# <a class="characterId" data-toggle="collapse" data-target="#collapse{{character.id}}" aria-expanded="false" aria-controls="collapse{{character.id}}"> #}
-										<a class="characterId" data-category="{{ character.category }}" data-toggle="collapse" data-target="#collapse{{character.id}}" aria-expanded="false" aria-controls="collapse{{character.id}}">
-											<p class="nameCharacter" id="nameCharacter{{character.id}}">
-												<i class="fa fa-user"></i>
-												<span id='character{{character.id}}FirstName' class="name">{{character.firstname}}</span>
-												<span id='character{{character.id}}LastName'>{{character.lastname}}</span>
-											</p>
-											<i class="fa fa-chevron-down toggle"></i>
-										</a>
-									</h2>
-								</div>
-								<div id="collapse{{character.id}}" class="collapse" aria-labelledby="heading{{character.id}}" data-parent="#accordionExample">
-									<div class="card-body">
-										<div class="card-button">
-											<form class="formCardCharacter" method="post" action="{{path('app_character_delete', {'id': character.id})}}" onsubmit="return confirm('Supprimer le personnage : {{character.firstname}} {{character.lastname}} ?');">
-												<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ character.id) }}">
-												<button type="submit" type="button" class="btn" title="Supprimer">
-													<i class="fi fi-rr-trash"></i>
-												</button>
-											</form>
-											<form class="formCardCharacter" method="post" action="{{path('app_character_edit', {'id': character.id})}}">
-												<input type="hidden" name="_token" value="{{ csrf_token('edit' ~ character.id) }}">
-												<button type="submit" type="button" class="btn" title="Modifier">
-													<i class="fi fi-rr-edit"></i>
-												</button>
-											</form>
-										</div>
-										<p class="text-justify">Profession :
-											{{character.job}}
+</div><!-- -------------------------Container creation Characters & Chapters--------------------- --><!-- ------------------------- creation Characters --------------------- --><div class="container-lg mt-3">
+	<div class="row">
+		<div class="col-lg-5">
+			<div class="accordion mb-2" id="accordionExample">
+				{% if selectedStory %}
+					{% for character in selectedStory.characters %}
+						<div class="card card-category hidden" data-category="{{ character.category.name }}">
+							<div class="card-header" id="heading{{character.id}}">
+								<h2
+									class="mb-0">
+									{# <a class="characterId" data-toggle="collapse" data-target="#collapse{{character.id}}" aria-expanded="false" aria-controls="collapse{{character.id}}"> #}
+									<a class="characterId" data-category="{{ character.category }}" data-toggle="collapse" data-target="#collapse{{character.id}}" aria-expanded="false" aria-controls="collapse{{character.id}}">
+										<p class="nameCharacter" id="nameCharacter{{character.id}}">
+											<i class="fa fa-user"></i>
+											<span id='character{{character.id}}FirstName' class="name">{{character.firstname}}</span>
+											<span id='character{{character.id}}LastName'>{{character.lastname}}</span>
 										</p>
-										<p class="text-justify">Age :
-											{{character.age}}
-										</p>
-										<p class="text-justify">Ville :
-											{{character.city}}
-										</p>
-										<p class="text-justify">Surnom :
-											{{character.nickname}}
-										</p>
-										<p class="text-justify">Éthnie :
-											{{character.ethnic}}
-										</p>
-										<p>
-											<i class="fi fi-sr-users-alt"></i>Liens :
-											{{character.link}}
-										</p>
-										<p class="text-justify">Infos :
-											{{character.information}}
-										</p>
+										<i class="fa fa-chevron-down toggle"></i>
+									</a>
+								</h2>
+							</div>
+							<div id="collapse{{character.id}}" class="collapse" aria-labelledby="heading{{character.id}}" data-parent="#accordionExample">
+								<div class="card-body">
+									<div class="card-button">
+										<form class="formCardCharacter" method="post" action="{{path('app_character_delete', {'id': character.id})}}" onsubmit="return confirm('Supprimer le personnage : {{character.firstname}} {{character.lastname}} ?');">
+											<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ character.id) }}">
+											<button type="submit" type="button" class="btn" title="Supprimer">
+												<i class="fi fi-rr-trash"></i>
+											</button>
+										</form>
+										<form class="formCardCharacter" method="post" action="{{path('app_character_edit', {'id': character.id})}}">
+											<input type="hidden" name="_token" value="{{ csrf_token('edit' ~ character.id) }}">
+											<button type="submit" type="button" class="btn" title="Modifier">
+												<i class="fi fi-rr-edit"></i>
+											</button>
+										</form>
 									</div>
+									<p class="text-justify">Profession :
+										{{character.job}}
+									</p>
+									<p class="text-justify">Age :
+										{{character.age}}
+									</p>
+									<p class="text-justify">Ville :
+										{{character.city}}
+									</p>
+									<p class="text-justify">Surnom :
+										{{character.nickname}}
+									</p>
+									<p class="text-justify">Éthnie :
+										{{character.ethnic}}
+									</p>
+									<p>
+										<i class="fi fi-sr-users-alt"></i>Liens :
+										{{character.link}}
+									</p>
+									<p class="text-justify">Infos :
+										{{character.information}}
+									</p>
 								</div>
 							</div>
-						{% endfor %}
-						{% else %}
-					{% endif %}
-				</div>
+						</div>
+					{% endfor %}
+					{% else %}
+				{% endif %}
 			</div>
-			<div class="col">
-				<div class="form-group shadow-textarea">
-					{# <textarea class="form-control z-depth-1" id="contentEditor" name="textarea" rows="3" placeholder="Vos idées pour ce chapitre..." style="height: 35rem; resize: none; white-space: pre-line;"></textarea> #}
-					<textarea class="form-control z-depth-1" id="contentIdeas" name="textarea" rows="3" placeholder="Vos idées pour ce chapitre..." style="height: 35rem; resize: none; white-space: pre-line;"></textarea>
-					<button class="btn btn-outline-success btn-default btn-block" onclick="updateChapter('{{absolute_url(path('app_api_updatechaptercontent', {id:'fragmentToReplace'}))}}')">Sauvegarder vos idées</button>
-				</div>
+		</div>
+		<div class="col">
+			<div
+				class="form-group shadow-textarea">
+				{# <textarea class="form-control z-depth-1" id="contentEditor" name="textarea" rows="3" placeholder="Vos idées pour ce chapitre..." style="height: 35rem; resize: none; white-space: pre-line;"></textarea> #}
+				<textarea class="form-control z-depth-1" id="contentIdeas" name="textarea" rows="3" placeholder="Vos idées pour ce chapitre..." style="height: 35rem; resize: none; white-space: pre-line;"></textarea>
+				<button class="btn btn-outline-success btn-default btn-block" onclick="updateChapter('{{absolute_url(path('app_api_updatechaptercontent', {id:'fragmentToReplace'}))}}')">Sauvegarder vos idées</button>
 			</div>
 		</div>
 	</div>
-
-	{% if selectedStory.chapters is not empty %}
-		<script>
-			document.querySelector('#chapitreEnCours').textContent = '{{ selectedStory.chapters[0].name }}';
-			document.querySelector('#contentIdeas').value = '{{ selectedStory.chapters[0].ideas }}';
-			document.querySelector('#numberOfChapter').textContent = `Chapitre 1`;
-			window.__chapterSelectedId__ = {{ selectedStory.chapters[0].id }};
-			console.log(window.__chapterSelectedId__);
-		</script>
-	{% endif %}
-{% endblock %}
+</div>
+{% if selectedStory and selectedStory.chapters is not empty %}
+	<script>
+		document.querySelector('#chapitreEnCours').textContent = '{{ selectedStory.chapters[0].name }}';
+document.querySelector('#contentIdeas').value = '{{ selectedStory.chapters[0].ideas }}';
+document.querySelector('#numberOfChapter').textContent = `Chapitre 1`;
+window.__chapterSelectedId__ = {{ selectedStory.chapters[0].id }};
+console.log(window.__chapterSelectedId__);
+	</script>
+{% endif %}{% endblock %}

@@ -36,13 +36,15 @@ class MainController extends AbstractController
         // Get all stories
 
         $stories = $storyRepository->findStoriesByUser($user);
+
+
         if ($id) {
             $selectedStory = $storyRepository->findOneBy(['id' => $id]);
             if (!$selectedStory) {
                 throw new Exception('No story found for id' . $id, 404);
             }
         } else {
-            $selectedStory = $stories[0];
+            $selectedStory = $stories[0] ?? null;
         }
 
         $user = new User();
