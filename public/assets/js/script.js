@@ -115,13 +115,12 @@ function getCookie(cname) {
 
 // Mise en surbrillance des personnages nommés dans le text
 
-
 function searchNameForCollapse() {
     let textArea = document.querySelector("#contentIdeas").value.toLowerCase();
     let indexCharacterId = document.querySelectorAll('.nameCharacter span.name');
 
-    indexCharacterId.forEach((element, index) => {
-        const indexId = element.parentElement.id.match(/\d+/);
+    indexCharacterId.forEach((element) => {
+
         let firstName = element.textContent.toLowerCase();
 
         if (textArea.includes(firstName)) {
@@ -147,7 +146,6 @@ searchNameForCollapse();
 // Affichage chapterIdeas, chapterName and indexChapter 
 
 document.addEventListener('DOMContentLoaded', function () {
-    // console.log(CKEDITOR);
 
     const dropdownItems = document.querySelectorAll('.chapterInfos > .dropdown-item');
     dropdownItems.forEach(function (item, index) {

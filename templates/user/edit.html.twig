@@ -4,11 +4,13 @@
 
 {% block body %}
     <h1 class="text-center">Edit {{ user.firstname }} {{ user.lastname }}</h1>
-    <div class="form-group col-8 m-auto" onclick="return confirm('sûr de modifier ?')">
+    <div class="form-group col-8 m-auto" onclick="return confirm('Étes-sûr de vouloir modifier cette utilisateur ?')">
         {{ include('user/_form.html.twig', {'button_label': 'Update'}) }}
     </div>
 
-    <a type="button" class="btn btn-light btn-lg col-8 m-auto" href="{{ path('app_user_index') }}">Retour liste</a>
+    <a type="button" class="btn btn-light btn-lg col-12 m-auto" href="{{ path('app_user_index') }}">Retour liste</a>
+    <a type="button" class="btn btn-success btn-lg col-12 m-auto" href="{{ path('app_main') }}">Retour Storiz</a>
 
-    <a type="button" class="btn btn-danger btn-lg col-8 m-auto">{{ include('user/_delete_form.html.twig') }}</a>
+
+    <a type="button" class="btn btn-danger btn-lg col-12 m-auto">{{ include('user/_delete_form.html.twig') }}</a>
 {% endblock %}

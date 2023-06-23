@@ -13,6 +13,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class MainController extends AbstractController
 {
 
+
+    #[Route('/')]
+    public function welcomeAction(): Response
+    {
+
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->redirectToRoute('app_login');
+        }
+        return $this->redirectToRoute('app_main');
+    }
+
+
     #[Route('/main/{id}', name: 'app_main')]
     public function mainAction(
         StoryRepository $storyRepository,

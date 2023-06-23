@@ -1,12 +1,15 @@
 body{
     background-color: white;
-    color: black;
+    color: rgb(0, 0, 0);
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 body.dark-theme {
     background-color: rgb(42, 42, 42);
     color: #FFFFFF;
 }
+
+
 
 /* --------------------- NAVBAR -------------------------------------*/
 
@@ -49,6 +52,10 @@ body.dark-theme {
 }
 
 /* --------------------- BODY -------------------------------------*/
+
+textarea {
+    font-family: 'EB Garamond', arial, serif;
+}
 
 
     /* --------------------- ACCORDIONS Characters-------------------------------- */

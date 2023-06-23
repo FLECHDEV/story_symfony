@@ -39,7 +39,6 @@
 										</button>
 										{% for story in stories %}
 											<li>
-												{# <button onclick="getStoryData('{{absolute_url(path('app_api_getstory', {'story': story.id}))}}')" class="dropdown-item story">{{ story.name }}</button> #}
 												<a href="{{path('app_main', {'id': story.id})}}" class="dropdown-item story">{{ story.name }}</a>
 											</li>
 										{% else %}
@@ -459,9 +458,6 @@
 							<li>
 								<a class="dropdown-item story" onclick="filterCharactersByCategory('{{ category.name }}')"> {{ category.name }}</a>
 							</li>
-						{# </a>
-							<a class="dropdown-item story" onclick="filterCategory('{{category.name}}')">{{ category.name}}</a>
-						</li> #}
 						{% endfor %}
 					</ul>
 					<button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modalSettingCategory">
