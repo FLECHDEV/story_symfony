@@ -1,0 +1,48 @@
+	<!-- ------------------------Modal setting Category--------------------- -->
+
+		<div class="modal fade modal-lg" id="modalSettingCategory" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true"> <div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="staticBackdropLabel">Tableau des catégories</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				{% if selectedStory %}
+					<a href="{{path('app_category_new')}}" type="button" class="btn btn-outline-success">Ajout catégorie</a>
+				{% else %}
+					<a type="button" class="btn btn-outline-danger disabled">Ajout catégorie</a>
+					<p class="text text-center">Créer d'abord une story pour créer des catégories</p>
+				{% endif %}
+				<div class="modal-body ">
+
+					<div class="table-responsive">
+						<table class="table">
+							<thead>
+								<tr>
+									<th class="text-center">#</th>
+									<th>Catégorie</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% if selectedStory %}
+									{% for category in selectedStory.categories %}
+										<tr>
+											<td class="text-center">1</td>
+											<td>{{category.name}}</td>
+											<td class="td-actions text-right">
+												<a href="{{path('app_category_delete' , {'id': category.id} )}}" type=" button" class=" btn" id=" btnActionDelete">
+													<i class="fi fi-rr-trash"></i>
+												</a>
+												<a href="href=" {{path('app_category_edit' , {'id': category.id} )}}"" type="button" class="btn" id="btnActionEdit">
+													<i class="fi fi-rr-edit"></i>
+												</a>
+											</td>
+										</tr>
+									{% endfor %}
+								{% endif %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>

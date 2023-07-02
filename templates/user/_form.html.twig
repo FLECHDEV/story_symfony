@@ -1,4 +1,9 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn btn-info">{{ button_label|default('Save') }}</button><br><br>
+{{ form_widget(form) }}
+{# <div class="col">
+	<label for="verifpass">Confirmez votre mot de passe</label>
+	<input type="password" id="verifpass" required>
+</div> #}
+<br>
+<button class="btn btn-lg btn-success">{{ button_label|default('Valider') }}</button><br><br>
 {{ form_end(form) }}

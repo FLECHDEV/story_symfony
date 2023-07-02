@@ -1,0 +1,63 @@
+	<nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+		<div class="container px-5 px-lg-5">
+			<a class="navbar-brand" title="Storiz">STORIZ</a>
+			{% if selectedStory %}
+				<p class="text-end text-secondary fw-bold" id="selectedStory">{{selectedStory.name}}</p>
+			{% endif %}
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" alt="Menu">
+				Menu
+				<i class="fas fa-bars"></i>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarResponsive">
+				<ul class="navbar-nav ms-auto py-4 py-lg-0 ">
+					{% if app.user %}
+						<span class="navbar-text" id="navbarFlash">{% include "partials/_flash.html.twig" %}</span>
+						<li class="nav-item">
+							<a class="nav-link px-lg-3 py-3 py-lg-4" id="btnlogout" href="{{path('app_logout')}}" alt="Déconnexion" data-no-routing>Deconnexion</a>
+						</li>
+						{% if is_granted('ROLE_ADMIN') %}
+							<li>
+								<a class="nav-link px-lg-3 py-3 py-lg-4" href="{{path ('user_index') }}" title="utilisateurs">Admin</a>
+							</li>
+						{% endif %}
+						<div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+							<ul class="navbar-nav" id="ulStory">
+								<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+										Storizzz
+									</a>
+									<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink" id="ulStory">
+										<button type="button" class="btn btn-outline-warning btn-block" id="ButtonSettingStory" data-bs-toggle="modal" data-bs-target="#modalSettingStory">
+											<i class="fi fi-rr-settings"></i>
+										</button>
+										{% for story in stories %}
+											<li>
+												<a href="{{path('app_main', {'id': story.id})}}" class="dropdown-item story">{{ story.name }}</a>
+											</li>
+										{% else %}
+											<li>
+												<a class="dropdown-item" href="#">Aucune storiz</a>
+											</li>
+										{% endfor %}
+									</ul>
+								</li>
+							</ul>
+						</div>
+
+
+					{% else %}
+						<li class="nav-item">
+							<a class="nav-link px-lg-3 py-3 py-lg-4" href="{{path('app_login')}}" data-bs-toggle="modal" data-bs-target="#modalConnexion" alt="Connexion">Connexion</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link px-lg-3 py-3 py-lg-4" href="{{path('app_register')}}" data-bs-toggle="modal" data-bs-target="#modalInscription" alt="Inscription">Inscription</a>
+						</li>
+					{% endif %}
+					<li class="nav-item" id="buttonToggle">
+						<input type="checkbox" data-toggle="toggle" checked data-onlabel="off" data-offlabel="on" data-onstyle="outline-secondary" data-offstyle="outline-light" data-size="xs" id="blackAndWhite">
+					</li>
+
+				</ul>
+			</div>
+		</div>
+	</nav>

@@ -1,11 +1,63 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Character{% endblock %}
+{% block title %}New Character
+{% endblock %}
 
 {% block body %}
-    <h1>Create new Character</h1>
 
-    {{ include('character/_form.html.twig') }}
+	{# {{ form_start(form) }}
+	<div class="container min-vh-100 d-flex justify-content-center align-items-center">
+		<form method="post">
+			<div class="form-row">
+				<div class="row">
+					<div class="col">
+						{{ form_row(form.firstname) }}
+					</div>
+					<div class="col" id="some-custom-id">
+						{{ form_row(form.lastname) }}
+					</div>
+					<div class="col">
+						{{ form_row(form.nickname) }}
+					</div>
+					<div class="col">
+						{{ form_row(form.age) }}
+					</div>
+					<div class="col">
+						{{ form_row(form.job) }}
+					</div>
+					<div class="col">
+						{{ form_row(form.city) }}
+					</div>
+					<div class="col">
+						{{ form_row(form.ethnic) }}
+					</div>
+					<div class="col">
+						{{ form_row(form.link) }}
+					</div>
+					<div class="col">
+						{{ form_row(form.information) }}
+					</div>
+				</div>
+			</div>
+		</div>
+		{{ include('character/_form.html.twig') }}
+		<a class="btn btn-lg btn-success" href="{{ path('app_main') }}">Retour</a>
+	</div>
+</form></div>{{ form_end(form) }} #}
 
-    <a href="{{ path('app_character_index') }}">back to list</a>
+
+
+
+<div class="container min-vh-100 d-flex justify-content-center align-items-center">
+				<form method="post">
+					<div class="form-row">
+						<div class="col">
+							<h1 class="h3 mb-3 font-weight-normal text-center">Creation personnage</h1>
+							{{ include('character/_form.html.twig') }}
+							<a class="btn btn-lg btn-success" href="{{ path('app_main') }}">Retour</a>
+						</div>
+					</div>
+				</form>
+			</div>
+            
 {% endblock %}

@@ -1,0 +1,19 @@
+	<div class="modal fade" id="modalNewChapter" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="staticBackdropLabel">Nouveau Chapitre</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body ">
+					<form action="{{ path('app_chapter_new')}}" method="post" id="formNewChapter">
+						<div class="mb-3">
+							<label for="newChapter" class="form-label">Titre du chapitre</label>
+							<input type="text" name="newChapter" class="form-control" id="imputnewChapter">
+						</div>
+						<button type="submit" class="btn btn-success justify-content-center" href="#">Valider</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>

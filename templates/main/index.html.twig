@@ -15,7 +15,7 @@
 			{% endif %}
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" alt="Menu">
 				Menu
-				<i class="fas fa-bars"></i>
+				<i class="fas fa-bars red" style="color:red"></i>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<ul class="navbar-nav ms-auto py-4 py-lg-0 ">
@@ -29,6 +29,7 @@
 								<a class="nav-link px-lg-3 py-3 py-lg-4" href="{{path ('user_index') }}" title="utilisateurs">Admin</a>
 							</li>
 						{% endif %}
+
 						<div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
 							<ul class="navbar-nav" id="ulStory">
 								<li class="nav-item dropdown">
@@ -63,9 +64,8 @@
 						</li>
 					{% endif %}
 					<li class="nav-item" id="buttonToggle">
-						<input type="checkbox" data-toggle="toggle" checked data-onlabel="Jour" data-offlabel="Nuit" data-onstyle="outline-secondary" data-offstyle="outline-light" data-size="xs" id="blackAndWhite">
+						<button type="button" data-toggle="toggle" checked data-onlabel="off" data-offlabel="on" data-onstyle="outline-secondary" data-offstyle="outline-light" data-size="xs" id="blackAndWhite">Mode</button</li>
 					</li>
-
 				</ul>
 			</div>
 		</div>
@@ -175,45 +175,21 @@
 	<!-- ------------------------Modal New Story--------------------- -->
 	{% include "main/new_story.html.twig" %}
 
-
-	<!-- ------------------------Modal update Story--------------------- -->
-
-	{# <div class="modal fade" id="modalUpdateStory" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-																									<div class="modal-dialog">
-																										<div class="modal-content">
-																											<div class="modal-header">
-																												<h5 class="modal-title" id="staticBackdropLabel">Renommer Story</h5>
-																												<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-																											</div>
-																											<div class="modal-body ">
-																												<form method="post" action="{{ path('app_story_edit', {'id': story.id}) }}" onsubmit="return confirm('Mettre à jour la Story : {{ story.name }} ?');" id="modalEditStory">
-																													<input type="hidden" name="_token" value="{{ csrf_token('update' ~ story.id) }}">
-																													<div class="mb-3">
-																														<label for="nextStory" class="form-label">Titre actuel</label>
-																														<input type="text" readonly value="{{ story.name }}" name="nextStory" class="form-control" id="currentStory" data-story-id="{{ story.id }}">
-																							
-																													</div>
-																													<div class="mb-3">
-																														<label for="updateStory" class="form-label">Nouveau titre</label>
-																														<input type="text" name="updateStory" class="form-control" id="updateStory">
-																													</div>
-																													<buttonValider type="submit" class="btn btn-outline-success justify-content-center" href="#">Actualiser</button>
-																												</form>
-																											</div>
-																										</div>
-																									</div>
-																								</div>   #}
-
-
 	<!-- ------------------------Modal setting Category--------------------- -->
 
-		<div class="modal fade modal-lg" id="modalSettingCategory" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true"> <div class="modal-dialog">
+	<div class="modal fade modal-lg" id="modalSettingCategory" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="staticBackdropLabel">Tableau des catégories</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
-				<button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalNewCategory">Ajout catégorie</button>
+				{% if selectedStory %}
+					<a href="{{path('app_category_new')}}" type="button" class="btn btn-outline-success">Ajout catégorie</a>
+				{% else %}
+					<a type="button" class="btn btn-outline-danger disabled">Ajout catégorie</a>
+					<p class="text text-center">Créer d'abord une story pour créer des catégories de personnages</p>
+				{% endif %}
 				<div class="modal-body ">
 
 					<div class="table-responsive">
@@ -225,18 +201,22 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td class="text-center">1</td>
-									<td>Famille Lechangeur</td>
-									<td class="td-actions text-right">
-										<button type="button" class="btn" id="btnActionDelete" data-bs-toggle="modal" data-bs-target="#modal">
-											<i class="fi fi-rr-trash"></i>
-										</button>
-										<button type="button" class="btn" id="btnActionEdit" data-bs-toggle="modal" data-bs-target="#modalUpdateCategory">
-											<i class="fi fi-rr-edit"></i>
-										</button>
-									</td>
-								</tr>
+								{% if selectedStory %}
+									{% for category in selectedStory.categories %}
+										<tr>
+											<td class="text-center">1</td>
+											<td>{{category.name}}</td>
+											<td class="td-actions text-right">
+												<a href="{{path('app_category_delete' , {'id': category.id} )}}" type=" button" class=" btn" id=" btnActionDelete">
+													<i class="fi fi-rr-trash"></i>
+												</a>
+												<a href="href=" {{path('app_category_edit' , {'id': category.id} )}}"" type="button" class="btn" id="btnActionEdit">
+													<i class="fi fi-rr-edit"></i>
+												</a>
+											</td>
+										</tr>
+									{% endfor %}
+								{% endif %}
 							</tbody>
 						</table>
 					</div>
@@ -271,73 +251,6 @@
 		</div>
 	</div>
 
-	<!-- ------------------------Modal New Personnage------------------- -->
-
-	<div class="modal fade modal-lg" id="modalNewCharacter" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="staticBackdropLabel">Personnage</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body ">
-					<form action="#" method="post">
-						<div class="mb-3">
-							<label for="prenom" class="form-label">Prènom</label>
-							<input type="text" name="prenom" class="form-control" id="Prenom" placeholder="Exemple: Lee-lou">
-						</div>
-						<div class="mb-3">
-							<label for="nom" class="form-label">Nom</label>
-							<input type="text" name="nom" class="form-control" placeholder="Exemple: White">
-						</div>
-						<div class="mb-3">
-							<label for="age" class="form-label">Age</label>
-							<input type="text" name="age" class="form-control" placeholder="Exemple: 35">
-						</div>
-						<div class="mb-3">
-							<label for="password" class="form-label">Surnom</label>
-							<input type="text" name="surnom" class="form-control" placeholder="Exemple: Loulou">
-						</div>
-						<div class="mb-3">
-							<label for="profession" class="form-label">Profession</label>
-							<input type="text" name="profession" class="form-control" placeholder="Exemple: Expert psychiatre">
-						</div>
-						<div class="mb-3">
-							<label for="ethnie" class="form-label">Éthnie</label>
-							<input type="text" name="ethnie" class="form-control" placeholder="Exemple: caucasien">
-						</div>
-						<div class="mb-3">
-							<label for="liens" class="form-label">Liens</label>
-							<input type="text" name="liens" class="form-control" placeholder="Exemple: Fille de Maryline">
-						</div>
-						<div class="mb-3">
-							<label for="password" class="form-label">Catégorie personnage</label>
-							<div class="dropdown">
-								<button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									Choisissez :
-								</button>
-								<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton">
-									<li>
-										<a class="dropdown-item" href="#">Famille Lechangeur</a>
-									</li>
-								</ul>
-							</div>
-							Nouvelle catégorie :
-							<input type="text" name="categorie" class="form-control" placeholder="Exemple : Famille White">
-						</div>
-						<div class="mb-4">
-							<label for="textCharacter" class="form-label">Infos</label>
-							<!-- <textarea class="form-control z-depth-1" id="textCharacter" rows="3" placeholder="Les infos sur ce personnage..." style="height: 15rem; resize: none; white-space: pre-line;"> -->
-							<div class="form-outline mb-4">
-								<textarea class="form-control" id="textCharacter" rows="4" placeholder="Exemple : Première apparition lors de la réunion de Police...  " style="resize: none; white-space: pre-line;"></textarea>
-							</div>
-						</div>
-						<button type="submit" class="btn btn-success justify-content-center" href="#">Valider</button>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
 
 	<!-- ------------------------Modal New Chapiter--------------------- -->
 
@@ -445,11 +358,11 @@
 <!-- ----------------------------------------------Container storiz---------------------------------------------------- -->
 
 <!-- -------------------------Container dropdown storiz--------------------- -->
+<div class="d-flex p-2">
 
+	<div class="container mt-1" id="containerOne">
 
-<div class="container-lg mt-1">
-	<div class="row">
-		<div class="col-lg-5">
+		<div class="col">
 			<div class="dropdown">
 				<button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					Catégorie
@@ -470,41 +383,11 @@
 				<button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modalSettingCategory">
 					<i class="fi fi-rr-settings"></i>
 				</button>
-				<button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalNewCharacter">Nouveau personnage</button>
+				<a href="{{ path('app_character_new')}}" type="button" class="btn btn-outline-success">Nouveau personnage</a>
 			</div>
 		</div>
+		<br>
 		<div class="col">
-			<div class="dropdown">
-				<button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					Chapitre
-				</button>
-
-				<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink" id="ulChapter">
-					{% if selectedStory %}
-						{% for chapter in selectedStory.chapters %}
-							<li class="chapterInfos">
-								<a class="dropdown-item" id="dropdownChapter" data-chapter-name="{{ chapter.name }}" data-chapter-ideas="{{ chapter.ideas }}" data-chapter-id="{{chapter.id}}">{{ chapter.name }}</a>
-							</li>
-						{% endfor %}
-					{% else %}
-						<li>
-							<a class="dropdown-item">Aucun chapitre</a>
-						</li>
-					{% endif %}
-				</ul>
-				<button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modalSettingChapter">
-					<i class="fi fi-rr-settings"></i>
-				</button>
-				<button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalNewChapter">Nouveau chapitre</button>
-				<span class="text-secondary fw-bold" id="numberOfChapter" style="margin-left: 20px; "></span>
-				:
-				<label class="text-secondary fw-bold" id="chapitreEnCours"></label>
-			</div>
-		</div>
-	</div>
-</div><!-- -------------------------Container creation Characters & Chapters--------------------- --><!-- ------------------------- creation Characters --------------------- --><div class="container-lg mt-3">
-	<div class="row">
-		<div class="col-lg-5">
 			<div class="accordion mb-2" id="accordionExample">
 				{% if selectedStory %}
 					{% for character in selectedStory.characters %}
@@ -569,22 +452,55 @@
 				{% endif %}
 			</div>
 		</div>
+	</div>
+
+	<div class="container mt-1" id="containerTwo">
+		<div class="col">
+			<div class="dropdown">
+				<button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Chapitre
+				</button>
+				<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink" id="ulChapter">
+					{% if selectedStory %}
+						{% for chapter in selectedStory.chapters %}
+							<li class="chapterInfos">
+								<a class="dropdown-item" id="dropdownChapter" data-chapter-name="{{ chapter.name }}" data-chapter-ideas="{{ chapter.ideas }}" data-chapter-id="{{chapter.id}}">{{ chapter.name }}</a>
+							</li>
+						{% endfor %}
+					{% else %}
+						<li>
+							<a class="dropdown-item">Aucun chapitre</a>
+						</li>
+					{% endif %}
+				</ul>
+				<button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modalSettingChapter">
+					<i class="fi fi-rr-settings"></i>
+				</button>
+				<button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalNewChapter">Nouveau chapitre</button>
+				<span class="text-secondary fw-bold" id="numberOfChapter" style="margin-left: 20px; "></span>
+				:
+				<label class="text-secondary fw-bold" id="chapitreEnCours"></label>
+			</div>
+		</div>
+		<br>
 		<div class="col">
 			<div
 				class="form-group shadow-textarea">
 				{# <textarea class="form-control z-depth-1" id="contentEditor" name="textarea" rows="3" placeholder="Vos idées pour ce chapitre..." style="height: 35rem; resize: none; white-space: pre-line;"></textarea> #}
 				<textarea class="form-control z-depth-1" id="contentIdeas" name="textarea" rows="3" placeholder="Vos idées pour ce chapitre..." style="height: 35rem; resize: none; white-space: pre-line;"></textarea>
-				<button class="btn btn-outline-success btn-default btn-block" onclick="updateChapter('{{absolute_url(path('app_api_updatechaptercontent', {id:'fragmentToReplace'}))}}')">Sauvegarder vos idées</button>
+				<button class="btn btn-outline-success btn-lg col-12 m-auto" onclick="updateChapter('{{absolute_url(path('app_api_updatechaptercontent', {id:'fragmentToReplace'}))}}')">Sauvegarder vos idées</button>
 			</div>
 		</div>
+
 	</div>
 </div>
+
 {% if selectedStory and selectedStory.chapters is not empty %}
 	<script>
 		document.querySelector('#chapitreEnCours').textContent = '{{ selectedStory.chapters[0].name }}';
-document.querySelector('#contentIdeas').value = '{{ selectedStory.chapters[0].ideas }}';
-document.querySelector('#numberOfChapter').textContent = `Chapitre 1`;
-window.__chapterSelectedId__ = {{ selectedStory.chapters[0].id }};
-console.log(window.__chapterSelectedId__);
+		document.querySelector('#contentIdeas').value = '{{ selectedStory.chapters[0].ideas }}';
+		document.querySelector('#numberOfChapter').textContent = `Chapitre 1`;
+		window.__chapterSelectedId__ = {{ selectedStory.chapters[0].id }};
+			console.log(window.__chapterSelectedId__);
 	</script>
 {% endif %}{% endblock %}

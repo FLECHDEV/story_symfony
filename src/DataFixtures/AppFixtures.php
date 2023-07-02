@@ -66,8 +66,8 @@ class AppFixtures extends Fixture
         $chapters = [];
         for ($i = 0; $i < 10; $i++) {
             $chapter = new Chapter();
-            $chapter->setChapterName($faker->word(12));
-            $chapter->setChapterIdeas($faker->text());
+            $chapter->setName($faker->word(12));
+            $chapter->setIdeas($faker->text());
             $chapter->setStory($stories[rand(0, count($stories) - 1)]);
             $manager->persist($chapter);
             $chapters[] = $chapter;

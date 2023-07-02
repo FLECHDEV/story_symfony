@@ -1,12 +1,27 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nouvel utilisateur{% endblock %}
+{% block title %}Inscription
+{% endblock %}
 
 {% block body %}
-    <h1 class="text-center">Nouvel utilisateur</h1>
-    <div class="form-group col-8 m-auto">
-        {{ include('user/_form.html.twig') }}
-    </div>
-    <a type="button" class="btn btn-warning btn-lg col-8 m-auto" href="{{ path('app_user_index') }}">Retour liste</a>
-    <a type="button" class="btn btn-success btn-lg col-8 m-auto" href="{{ path('app_main') }}">Retour Storiz</a>
+	<div class="container min-vh-100 d-flex justify-content-center align-items-center">
+		<form method="post">
+			<div class="form-row">
+				<div class="col">
+					<h1 class="h1 mb-1 font-weight-normal text-center">Bienvenue sur STORIZ</h1>
+					<h1 class="text-center">Inscription</h1>
+					<div class="form-group col-8 m-auto">
+						{{ include('user/_form.html.twig') }}
+					</div>
+                    <p>Vous avez déjà un compte ?
+						<a href="{{path('app_user_new')}}">Connectez-vous!</a>
+					</p>
+                    {% if is_granted('ROLE_ADMIN') %}
+					<a type="button" class="btn btn-warning btn-lg col-8 m-auto" href="{{ path('app_user_index') }}">Retour liste</a>
+					<a type="button" class="btn btn-success btn-lg col-8 m-auto" href="{{ path('app_main') }}">Retour Storiz</a>
+                    {% endif %}
+				</div>
+			</div>
+		</form>
+	</div>
 {% endblock %}
